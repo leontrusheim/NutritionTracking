@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.menuBar, menuFrag);
         fragmentTransaction.commit();
 
+        Fragment homeFrag = new HomeMenuFragment();
+        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction2.add(R.id.mainContent, homeFrag);
+        fragmentTransaction2.commit();
+
 
     }
 }

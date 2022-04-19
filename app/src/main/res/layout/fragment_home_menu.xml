@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeMenuFragment"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Heading1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"/>
+    <Button
+        android:id="@+id/meals_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="@string/my_meals"
+        style="@style/BigButton"
+        android:backgroundTint="@color/green_dark"/>
+
+    <Button
+        android:id="@+id/progress_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="@string/my_progress"
+        android:backgroundTint="@color/green_med"
+        style="@style/BigButton"/>
+
+    <Button
+        android:id="@+id/goals_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="@string/my_goals"
+        android:backgroundTint="@color/green_light"
+        style="@style/BigButton" />
+
+</LinearLayout>

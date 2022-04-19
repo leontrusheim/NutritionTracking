@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".MenuSelectorFragment"
     android:orientation="horizontal">
-    <TextView
+    <Button
         style="@style/menuSelectorButton"
         android:text="@string/menu"/>
-    <TextView
+    <Button
         style="@style/menuSelectorButton"
         android:text="@string/goals"/>
-    <TextView
+    <Button
         style="@style/menuSelectorButton"
         android:text="@string/progress"/>
-    <TextView
+    <Button
         style="@style/menuSelectorButton"
         android:text="@string/meals"/>
 </LinearLayout>
