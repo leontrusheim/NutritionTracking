@@ -13,6 +13,9 @@
     <string name="progress_header">View Progress</string>
     <string name="forward">➡️</string>
     <string name="backward">⬅️</string>
+    <string name="take_photo">Capture 📸</string>
+    <string name="pick_photo">Pick Photo 🖼</string>
+    <string name="no_photo">No Photo 🚫</string>
     <string-array name="categories">
         <item>Protein</item>
         <item>Fat</item>

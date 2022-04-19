@@ -3,28 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddMealFragment"
+    tools:context=".AddPhotoFragment"
     android:orientation="vertical">
 
     <TextView
         style="@style/Heading1"
-        android:text="TODO Meals"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <FrameLayout
-        android:id="@+id/topBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/add_photo_button"
-        style="@style/Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Meal"/>
+        android:text="Add Photo"/>
 
-    <GridView
+    <Button
+        style="@style/BigButton"
+        android:layout_weight="0.3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/take_photo"/>
+
+    <Button
+        android:layout_weight="0.3"
+        style="@style/BigButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_photo"/>
+
+    <Button
+        android:layout_weight="0.3"
+        style="@style/BigButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_photo"/>
 </LinearLayout>
