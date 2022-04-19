@@ -19,5 +19,6 @@
         android:onClick="onClickViewProgress"/>
     <Button
         style="@style/menuSelectorButton"
-        android:text="@string/meals"/>
+        android:text="@string/meals"
+        android:onClick="onClickViewMeals"/>
 </LinearLayout>

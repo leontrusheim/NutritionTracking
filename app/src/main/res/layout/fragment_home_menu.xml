@@ -18,7 +18,8 @@
         android:layout_weight="0.3"
         android:text="@string/my_meals"
         style="@style/BigButton"
-        android:backgroundTint="@color/green_dark"/>
+        android:backgroundTint="@color/green_dark"
+        android:onClick="onClickViewMeals"/>
 
     <Button
         android:id="@+id/progress_button"
