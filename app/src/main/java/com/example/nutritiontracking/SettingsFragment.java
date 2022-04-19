@@ -1,5 +1,6 @@
 package com.example.nutritiontracking;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,22 +15,33 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
+    public Activity invokerActivity;
+    public SharedPreferences sharedPrefs;
+    SharedPreferences.Editor editor;
 
     // TODO: Rename and change types of parameters
-    private int cals;
-    private int carbs;
+    public int cals;
+    public int carbs;
+    private int fats;
+    private int proteins;
+
+    public SeekBar calSeek;
+    private SeekBar carbSeek;
+    private SeekBar fatSeek;
+    private SeekBar proteinSeek;
+
+    TextView calText;
 
     public SettingsFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            cals = getArguments().getInt("calories");
-            carbs = getArguments().getInt("carbs");
-        }
+        invokerActivity = getActivity();
+        sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        editor = sharedPrefs.edit();
+        cals = sharedPrefs.getInt("calories", 499);
     }
 
     @Override
@@ -37,18 +49,17 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
-        final SeekBar calSeek = v.findViewById(R.id.seek_calories);
-        calSeek.setProgress((cals / 2000)* 100);
+
+        calSeek = v.findViewById(R.id.seek_calories);
+        calText = v.findViewById(R.id.calText);
+        calText.setText("calories - " + cals);
+        System.out.println("CALS INIT: " + cals);
+        calSeek.setProgress(cals);
         calSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                SharedPreferences sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPrefs.edit();
-                int calVal = calSeek.getProgress() / 100 * 2000;
-                editor.putInt("calories", calVal);
-                TextView tv = v.findViewById(R.id.calText);
-                tv.setText("Calories" + calVal);
-                editor.commit();
+                cals = calSeek.getProgress();
+                calText.setText("calories - " + cals);
             }
 
             @Override
@@ -58,7 +69,8 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                editor.putInt("calories", cals);
+                editor.commit();
             }
         });
         return v;
