@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/calText"
         style="@style/Body1"
         android:text="TODO - calories"
         android:layout_width="match_parent"

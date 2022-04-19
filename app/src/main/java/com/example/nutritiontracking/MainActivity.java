@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -31,7 +33,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickViewSettings(View v){
+        SharedPreferences sharedPrefs = this.getPreferences(Context.MODE_PRIVATE);
+        int cals = sharedPrefs.getInt("calories",2000);
+        int carbs = sharedPrefs.getInt("carbs", 20);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+        Bundle args = new Bundle();
+        args.putInt("calories", cals);
+        args.putInt("carbs", carbs);
+
         Fragment settingFrag = new SettingsFragment();
+        settingFrag.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, settingFrag);
         fragmentTransaction.commit();
