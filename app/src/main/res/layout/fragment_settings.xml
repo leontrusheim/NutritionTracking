@@ -15,10 +15,12 @@
     <SeekBar
         android:id="@+id/seek_calories"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:min="1000"
+        android:max="5000"/>
     <TextView
+        android:id="@+id/calText"
         style="@style/Body1"
-        android:text="TODO - calories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <SeekBar
