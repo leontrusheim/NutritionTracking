@@ -9,4 +9,7 @@
     <string name="my_meals">My Meals 🥗</string>
     <string name="my_progress">Progress 📊</string>
     <string name="my_goals">My Goals 🎯</string>
+    <string name="daily">Daily 📅</string>
+    <string name="weekly">Weekly 📊</string>
+    <string name="progress_header">View Progress</string>
 </resources>
