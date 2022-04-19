@@ -6,4 +6,7 @@
     <string name="goals">🎯</string>
     <string name="progress">📊</string>
     <string name="menu">❓</string>
+    <string name="my_meals">My Meals 🥗</string>
+    <string name="my_progress">Progress 📊</string>
+    <string name="my_goals">My Goals 🎯</string>
 </resources>
