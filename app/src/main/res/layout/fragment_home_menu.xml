@@ -36,6 +36,7 @@
         android:layout_weight="0.3"
         android:text="@string/my_goals"
         android:backgroundTint="@color/green_light"
-        style="@style/BigButton" />
+        style="@style/BigButton"
+        android:onClick="onClickViewSettings"/>
 
 </LinearLayout>
