@@ -13,4 +13,10 @@
     <string name="progress_header">View Progress</string>
     <string name="forward">➡️</string>
     <string name="backward">⬅️</string>
+    <string-array name="categories">
+        <item>Protein</item>
+        <item>Fat</item>
+        <item>Calories</item>
+        <item>Carbs</item>
+    </string-array>
 </resources>

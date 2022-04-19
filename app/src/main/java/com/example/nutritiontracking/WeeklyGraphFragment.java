@@ -3,19 +3,19 @@ package com.example.nutritiontracking;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProgressSelectorFragment#newInstance} factory method to
+ * Use the {@link WeeklyGraphFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProgressSelectorFragment extends Fragment {
+public class WeeklyGraphFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class ProgressSelectorFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProgressSelectorFragment() {
+    public WeeklyGraphFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class ProgressSelectorFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProgressSelectorFragment.
+     * @return A new instance of fragment WeeklyGraphFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProgressSelectorFragment newInstance(String param1, String param2) {
-        ProgressSelectorFragment fragment = new ProgressSelectorFragment();
+    public static WeeklyGraphFragment newInstance(String param1, String param2) {
+        WeeklyGraphFragment fragment = new WeeklyGraphFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,28 +61,11 @@ public class ProgressSelectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_progress_selector, container, false);
-        Button b = v.findViewById(R.id.daily_button);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment dailyFrag = new DailyGraphFragment();
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.mainContent, dailyFrag);
-                fragmentTransaction.commit();
-            }
-        });
-
-        Button b2 = v.findViewById(R.id.weekly_button);
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment weeklyFrag = new WeeklyGraphFragment();
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.mainContent, weeklyFrag);
-                fragmentTransaction.commit();
-            }
-        });
+        View v=  inflater.inflate(R.layout.fragment_weekly_graph, container, false);
+        String[] categories = getResources().getStringArray(R.array.categories);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_menu_item, categories);
+        Spinner sp = v.findViewById(R.id.spinner);
+        sp.setAdapter(arrayAdapter);
         return v;
     }
 }
