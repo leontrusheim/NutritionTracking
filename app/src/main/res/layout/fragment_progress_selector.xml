@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeMenuFragment"
+    tools:context=".ProgressSelectorFragment"
     android:orientation="vertical">
 
     <TextView
         style="@style/Heading1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"/>
+        android:text="@string/progress_header"/>
     <Button
         android:id="@+id/meals_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
-        android:text="@string/my_meals"
+        android:text="@string/daily"
         style="@style/BigButton"
         android:backgroundTint="@color/green_dark"/>
 
@@ -25,19 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
-        android:text="@string/my_progress"
+        android:text="@string/weekly"
         android:backgroundTint="@color/green_med"
-        style="@style/BigButton"
-        android:onClick="onClickViewProgress"/>
-
-    <Button
-        android:id="@+id/goals_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:text="@string/my_goals"
-        android:backgroundTint="@color/green_light"
-        style="@style/BigButton"
-        android:onClick="onClickViewSettings"/>
+        style="@style/BigButton"/>
 
 </LinearLayout>

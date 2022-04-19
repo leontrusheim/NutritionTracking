@@ -36,4 +36,18 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainContent, settingFrag);
         fragmentTransaction.commit();
     }
+
+    public void onClickViewProgress(View v){
+        Fragment progressFrag = new ProgressSelectorFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, progressFrag);
+        fragmentTransaction.commit();
+    }
+
+    public void onClickViewHome(View v){
+        Fragment homeFrag = new HomeMenuFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, homeFrag);
+        fragmentTransaction.commit();
+    }
 }

@@ -7,13 +7,16 @@
     android:orientation="horizontal">
     <Button
         style="@style/menuSelectorButton"
-        android:text="@string/menu"/>
+        android:text="@string/menu"
+        android:onClick="onClickViewHome"/>
     <Button
         style="@style/menuSelectorButton"
-        android:text="@string/goals"/>
+        android:text="@string/goals"
+        android:onClick="onClickViewSettings"/>
     <Button
         style="@style/menuSelectorButton"
-        android:text="@string/progress"/>
+        android:text="@string/progress"
+        android:onClick="onClickViewProgress"/>
     <Button
         style="@style/menuSelectorButton"
         android:text="@string/meals"/>
