@@ -2,4 +2,8 @@
     <string name="app_name">NutritionTracking</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="meals">🥗</string>
+    <string name="goals">🎯</string>
+    <string name="progress">📊</string>
+    <string name="menu">❓</string>
 </resources>
