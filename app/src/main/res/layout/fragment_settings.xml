@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:min="1000"
-        android:max="5000"/>
+        android:max="5000" />
     <TextView
         android:id="@+id/calText"
         style="@style/Body1"
@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/carbsText"
         style="@style/Body1"
         android:text="TODO - carbs"
         android:layout_width="match_parent"
@@ -37,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/fatText"
         style="@style/Body1"
         android:text="TODO - fat"
         android:layout_width="match_parent"
@@ -48,6 +50,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/proteinText"
         style="@style/Body1"
         android:text="TODO - protein"
         android:layout_width="match_parent"
