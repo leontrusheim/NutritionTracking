@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
-    public String CAL = "calories";
-    public String FAT = "fats";
-    public String PROTEIN = "proteins";
-    public String CARB = "carbs";
+    public String CAL = "CALORIES";
+    public String FAT = "FATS";
+    public String PROTEIN = "PROTEINS";
+    public String CARB = "CARBS";
     public String[] types = {CAL, CARB, FAT, PROTEIN};
 
     public Activity invokerActivity;
@@ -53,19 +53,18 @@ public class SettingsFragment extends Fragment {
             TextView tv = textViews[i];
             int val = vals[i];
             if (type != CAL) {
-                tv.setText(type + " - " + val + "%");
+                tv.setText(type + " — " + val + "%");
             }
-            else {tv.setText(type + " - " + val);}
+            else {tv.setText(type + " — " + val + " cals");}
             curr.setProgress(val);
             curr.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                    getPrefs();
                     int val = curr.getProgress();
                     if (type != CAL) {
-                        tv.setText(type + " - " + val + "%");
+                        tv.setText(type + " — " + val + "%");
                     }
-                    else {tv.setText(type + " - " + val);}
+                    else {tv.setText(type + " — " + val + " cals");}
                 }
 
                 @Override
@@ -78,7 +77,8 @@ public class SettingsFragment extends Fragment {
                     int val = curr.getProgress();
                     editor.putInt(type, val);
                     editor.commit();
-                    setSeekBars(v);
+                    getPrefs();
+                    setOtherBars();
                 }
             });
         }
@@ -98,15 +98,23 @@ public class SettingsFragment extends Fragment {
         SeekBar calSeek = v.findViewById(R.id.seek_calories);
         SeekBar carbSeek = v.findViewById(R.id.seek_carbs);
         SeekBar fatSeek = v.findViewById(R.id.seek_fat);
-        fatSeek.setMax(100-carbSeek.getProgress());
         SeekBar proteinSeek = v.findViewById(R.id.seek_protein);
-        proteinSeek.setProgress(100-carbSeek.getProgress()-fatSeek.getProgress());
 
         TextView calText = v.findViewById(R.id.calText);
         TextView carbText = v.findViewById(R.id.carbsText);
         TextView fatText = v.findViewById(R.id.fatText);
         TextView proteinText = v.findViewById(R.id.proteinText);
+
         seekbars = new SeekBar[]{calSeek, carbSeek, fatSeek, proteinSeek};
         textViews = new TextView[]{calText, carbText, fatText, proteinText};
+    }
+
+    public void setOtherBars(){
+        if (vals[2] >= 100 - vals[1]){
+            seekbars[2].setProgress(100 - vals[1]);
+        }
+        if (vals[3] != 100 - vals[2] - vals[1]){
+            seekbars[3].setProgress(100 - vals[2] - vals[1]);
+        }
     }
 }

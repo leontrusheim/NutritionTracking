@@ -9,51 +9,64 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TODO GOALS"
-        style="@style/Heading1"/>
+        style="@style/Heading1"
+        android:text="@string/my_goals"/>
 
     <SeekBar
         android:id="@+id/seek_calories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:min="1000"
-        android:max="5000" />
+        android:max="5000"
+        android:progressTint="@color/grey"
+        android:thumbTint="@color/grey"/>
     <TextView
         android:id="@+id/calText"
         style="@style/Body1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:paddingBottom="40dp"/>
     <SeekBar
         android:id="@+id/seek_carbs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progressTint="@color/green_dark"
+        android:thumbTint="@color/green_dark"/>
+
     <TextView
         android:id="@+id/carbsText"
         style="@style/Body1"
-        android:text="TODO - carbs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_dark"/>
+
     <SeekBar
         android:id="@+id/seek_fat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progressTint="@color/green_med"
+        android:thumbTint="@color/green_med"/>
+
     <TextView
         android:id="@+id/fatText"
         style="@style/Body1"
-        android:text="TODO - fat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_med"/>
 
     <SeekBar
         android:id="@+id/seek_protein"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:progressTint="@color/green_light"
+        android:thumbTint="@color/green_light"/>
 
     <TextView
         android:id="@+id/proteinText"
         style="@style/Body1"
-        android:text="TODO - protein"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_light"/>
 
 </LinearLayout>

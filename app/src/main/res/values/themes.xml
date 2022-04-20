@@ -26,12 +26,13 @@
     </style>
 
     <style name="BigButton">
-        <item name="android:textSize">40dp</item>
+        <item name="android:textSize">36dp</item>
     </style>
 
     <style name="Heading1">
-        <item name="android:textSize">40dp</item>
+        <item name="android:textSize">36dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
@@ -39,5 +40,7 @@
     <style name="Body1">
         <item name="android:textSize">24dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
