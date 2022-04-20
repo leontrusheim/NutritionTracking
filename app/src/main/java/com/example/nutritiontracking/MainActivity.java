@@ -64,4 +64,18 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    public void onClickMealSummary(View v){
+        Fragment mealSummaryFragment = new MealSummaryFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void onClickSearchFood(View v){
+        Fragment searchFragment = new FoodSearchFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, searchFragment);
+        fragmentTransaction.commit();
+    }
+
 }

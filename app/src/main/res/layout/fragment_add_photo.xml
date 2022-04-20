@@ -31,5 +31,6 @@
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/no_photo"/>
+        android:text="@string/no_photo"
+        android:onClick="onClickMealSummary"/>
 </LinearLayout>

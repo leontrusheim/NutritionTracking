@@ -9,7 +9,9 @@
         <entry key="app/src/main/res/layout/fragment_add_photo.xml" value="0.24444444444444444" />
         <entry key="app/src/main/res/layout/fragment_daily_graph.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/fragment_date_selector.xml" value="0.29846153846153844" />
+        <entry key="app/src/main/res/layout/fragment_food_search.xml" value="0.21960149694372108" />
         <entry key="app/src/main/res/layout/fragment_home_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_meal_summary.xml" value="0.11018518518518519" />
         <entry key="app/src/main/res/layout/fragment_menu_selector.xml" value="0.26004180908203123" />
         <entry key="app/src/main/res/layout/fragment_progress_selector.xml" value="0.3046875" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3228047123661748" />
