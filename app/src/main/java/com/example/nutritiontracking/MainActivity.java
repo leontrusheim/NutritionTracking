@@ -9,8 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public  class MainActivity extends AppCompatActivity {
+
+    public static String CARBS = "carbs";
 
     /**
      * Testing header blah blah blah
@@ -53,18 +57,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
     public void onClickViewMeals(View v){
-/*
-        Fragment dateFrag = new DateSelectorFragment();
-        FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction1.replace(R.id.mainContent, dateFrag);
-        fragmentTransaction1.commit();*/
-
         Fragment mealFrag = new AddMealFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
         fragmentTransaction.commit();
-
     }
+
 }
