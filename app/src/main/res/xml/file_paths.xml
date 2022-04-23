@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+NAME: Ryan Pittner and Leon Trusheim
+FILENAME: file_paths.xml
+ASSIGNMENT: Final Project - Nutrition Tracker
+COURSE: CSc 317 (Dicken) - Spring 2022
+DESCRIPTION: Specifies a file path for where the high quality
+images should be stored.
+-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-files-path name="my_images" path="Pictures" />
+</paths>
