@@ -134,11 +134,11 @@ public  class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(JSONObject tiobe) {
+        protected void onPostExecute(JSONObject jsonFood) {
             try {
                 items = new ArrayList<String[]>();
                 nutrients = new HashMap<String[],String[]>();
-                JSONArray infoArray = tiobe.getJSONArray("hits");
+                JSONArray infoArray = jsonFood.getJSONArray("hits");
                 for (int i = 0; i < infoArray.length(); i++){
                     JSONObject infos = infoArray.getJSONObject(i);
                     JSONObject info = infos.getJSONObject("fields");
@@ -199,8 +199,8 @@ public  class MainActivity extends AppCompatActivity {
         nutrientFragment.setContainerActivity(this);
         Bundle args = new Bundle();
         String[] nutrients = (String[]) ((TextView)v).getTag();
-        args.putStringArray("nutrients",nutrients);
-        args.putString("info",text);
+        args.putStringArray("nutrients", nutrients);
+        args.putString("info", text);
         nutrientFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
