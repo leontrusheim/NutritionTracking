@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <EditText
+            android:id="@+id/edit_food"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.33"
@@ -19,11 +20,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.66"
-            android:text="Search"/>
+            android:text="Search"
+            android:onClick="OnClickShowFoodItems"/>
+
     </LinearLayout>
 
     <ListView
+        android:id="@+id/food_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>
