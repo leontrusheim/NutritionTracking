@@ -25,8 +25,8 @@ public class MealSummaryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String uri = getArguments().getString("PATH");
-        photoURI = Uri.parse(uri);
+        //String uri = getArguments().getString("PATH");
+        //photoURI = Uri.parse(uri);
     }
 
     @Override
