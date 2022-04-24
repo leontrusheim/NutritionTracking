@@ -2,10 +2,12 @@ package com.example.nutritiontracking;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,11 +59,13 @@ public class FoodSearchFragment extends Fragment {
                 R.id.food_list_row_item, items) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(R.id.food_list_row_item);
+                TextView tvHeader = (TextView) view.findViewById(R.id.food_list_row_item);
+                TextView tvDetails = (TextView) view.findViewById(R.id.food_list_title);
                 String[] info = items.get(position);
-                String text = "Item Name: " + info[0] + " Brand Name: " + info[1];
-                textView.setText(text);
-                textView.setTag(nutrients.get(info));
+                String text = info[0] + "\nBrand Name: " + info[1];
+                tvHeader.setText(info[0]);
+                tvDetails.setText("Brand Name: " + info[1]);
+                tvHeader.setTag(nutrients.get(info));
                 return view;
             }
         };

@@ -43,4 +43,19 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="Body2">
+        <item name="android:textSize">16dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="Heading2">
+        <item name="android:textSize">24dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
 </resources>
