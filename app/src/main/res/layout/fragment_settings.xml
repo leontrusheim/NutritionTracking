@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:min="1000"
-        android:max="5000"
+        android:max="7000"
         android:progressTint="@color/grey"
         android:thumbTint="@color/grey"/>
     <TextView

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -23,7 +24,7 @@ public class PhotosFragment extends Fragment {
 
     private AppCompatActivity containerActivity = null;
     private View inflatedView = null;
-    GridLayout ll;
+    LinearLayout gridView;
 
     public PhotosFragment() {
         // Required empty public constructor
@@ -39,7 +40,7 @@ public class PhotosFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_photos, container, false);
-        ll = inflatedView.findViewById(R.id.grid_images);;
+        gridView = inflatedView.findViewById(R.id.grid_images);
         return inflatedView;
     }
 
@@ -73,7 +74,7 @@ public class PhotosFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeFile(imageString);
             iv.setImageBitmap(bitmap);
             iv.setPadding(20,20,20,20);
-            ll.addView(iv);
+            gridView.addView(iv);
         }
         query.close();
         return galleryImageUrls;

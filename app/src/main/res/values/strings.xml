@@ -17,6 +17,7 @@
     <string name="pick_photo">Pick Photo 🖼</string>
     <string name="no_photo">No Photo 🚫</string>
     <string name="add_ingredient">Add ingredient</string>
+    <string name="add_to_meal">Add To Meal</string>
     <string-array name="categories">
         <item>Protein</item>
         <item>Fat</item>
