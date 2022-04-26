@@ -7,23 +7,30 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class PhotosFragment extends Fragment {
 
+    int width;
+
     private AppCompatActivity containerActivity = null;
     private View inflatedView = null;
-    LinearLayout ll;
+    GridLayout ll;
 
     public PhotosFragment() { }
 
@@ -53,6 +60,7 @@ public class PhotosFragment extends Fragment {
     }
 
     public ArrayList<String> fetchAndDisplayGalleryImages(Activity context) {
+        getWidthInPixels(inflatedView);
         ArrayList<String> galleryImageUrls;
 
         //get all columns of type images
@@ -76,15 +84,40 @@ public class PhotosFragment extends Fragment {
             System.out.println(photoUri.toString());
             ImageView iv = new ImageView(context);
             System.out.println(imageString);
-            BitmapFactory.decodeFile(imageString);
-            //Bitmap bitmap = BitmapFactory.decodeFile(imageString);
-            //iv.setImageBitmap(bitmap);
             iv.setImageURI(photoUri);
-            iv.setPadding(20,20,20,20);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
+            iv.setLayoutParams(lp);
+            //iv.setPadding();
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClickOpenMealSummary(photoUri.toString());
+                }
+            });
             ll.addView(iv);
         }
         query.close();
         return galleryImageUrls;
+    }
+
+
+    protected void getWidthInPixels(View v) {
+        int offset = v.getWidth();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
+    }
+
+    public void onClickOpenMealSummary(String uri){
+        Bundle args = new Bundle();
+        args.putString("PATH", uri.toString());
+        Fragment mealSummaryFrag = new MealSummaryFragment();
+        mealSummaryFrag.setArguments(args);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
+        fragmentTransaction.commit();
     }
 
 }
