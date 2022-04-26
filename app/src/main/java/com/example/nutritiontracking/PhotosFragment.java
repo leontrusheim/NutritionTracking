@@ -4,44 +4,46 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class PhotosFragment extends Fragment {
 
     private AppCompatActivity containerActivity = null;
     private View inflatedView = null;
-    LinearLayout gridView;
+    LinearLayout ll;
 
-    public PhotosFragment() {
-        // Required empty public constructor
-    }
+    public PhotosFragment() { }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         inflatedView = inflater.inflate(R.layout.fragment_photos, container, false);
-        gridView = inflatedView.findViewById(R.id.grid_images);
+        ll = inflatedView.findViewById(R.id.grid_images);
         return inflatedView;
+    }
+
+    public void setContainerActivity(AppCompatActivity containerActivity) {
+        this.containerActivity = containerActivity;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+
     }
 
     @Override
@@ -70,13 +72,19 @@ public class PhotosFragment extends Fragment {
             int dataColumnIndex = query.getColumnIndex(MediaStore.Images.Media.DATA);
             String imageString = query.getString(dataColumnIndex);
             galleryImageUrls.add(imageString);
+            Uri photoUri = Uri.parse(imageString);
+            System.out.println(photoUri.toString());
             ImageView iv = new ImageView(context);
-            Bitmap bitmap = BitmapFactory.decodeFile(imageString);
-            iv.setImageBitmap(bitmap);
+            System.out.println(imageString);
+            BitmapFactory.decodeFile(imageString);
+            //Bitmap bitmap = BitmapFactory.decodeFile(imageString);
+            //iv.setImageBitmap(bitmap);
+            iv.setImageURI(photoUri);
             iv.setPadding(20,20,20,20);
-            gridView.addView(iv);
+            ll.addView(iv);
         }
         query.close();
         return galleryImageUrls;
     }
+
 }
