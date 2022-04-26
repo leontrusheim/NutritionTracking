@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -23,7 +25,7 @@ public class PhotosFragment extends Fragment {
 
     private AppCompatActivity containerActivity = null;
     private View inflatedView = null;
-    LinearLayout ll;
+    GridLayout ll;
 
     public PhotosFragment() { }
 
@@ -76,11 +78,10 @@ public class PhotosFragment extends Fragment {
             System.out.println(photoUri.toString());
             ImageView iv = new ImageView(context);
             System.out.println(imageString);
-            BitmapFactory.decodeFile(imageString);
-            //Bitmap bitmap = BitmapFactory.decodeFile(imageString);
-            //iv.setImageBitmap(bitmap);
             iv.setImageURI(photoUri);
+            GridLayout.LayoutParams lp = new GridLayout.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT)
             iv.setPadding(20,20,20,20);
+            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
             ll.addView(iv);
         }
         query.close();
