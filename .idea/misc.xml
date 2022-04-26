@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_home_menu.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_meal_summary.xml" value="0.11018518518518519" />
         <entry key="app/src/main/res/layout/fragment_menu_selector.xml" value="0.26004180908203123" />
+        <entry key="app/src/main/res/layout/fragment_nutrient.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_photos.xml" value="0.25092592592592594" />
         <entry key="app/src/main/res/layout/fragment_progress_selector.xml" value="0.3046875" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3228047123661748" />

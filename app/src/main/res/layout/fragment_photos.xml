@@ -5,9 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".PhotosFragment">
 
-    <GridLayout
+    <LinearLayout
         android:id="@+id/grid_images"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 </FrameLayout>

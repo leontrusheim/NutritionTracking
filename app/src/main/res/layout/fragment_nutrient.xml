@@ -12,10 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button
+        style="@style/BigButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_meal"/>
+
     <ListView
         android:id="@+id/nutrient_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"/>
+
+
 
 </LinearLayout>
