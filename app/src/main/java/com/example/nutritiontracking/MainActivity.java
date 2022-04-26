@@ -208,9 +208,6 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void onClickCameraIntent(View v){
-
-    }
 
 
 }
