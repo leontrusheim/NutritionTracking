@@ -15,6 +15,9 @@ import java.net.URI;
 
 public class MealSummaryFragment extends Fragment {
 
+    View inflatedView;
+    ImageView iv;
+
     Uri photoURI;
 
     public MealSummaryFragment() {
@@ -34,9 +37,14 @@ public class MealSummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_meal_summary, container, false);
-        ImageView iv = v.findViewById(R.id.meal_image);
-        iv.setImageURI(photoURI);
-        return v;
+        inflatedView = inflater.inflate(R.layout.fragment_meal_summary, container, false);
+        iv = inflatedView.findViewById(R.id.meal_image);
+        if (photoURI != null){
+            iv.setImageURI(photoURI);
+        }
+        else{
+            iv.setImageResource(R.drawable.default_meal);
+            iv.setBackgroundColor(getResources().getColor(R.color.green_med));};
+        return inflatedView;
     }
 }
