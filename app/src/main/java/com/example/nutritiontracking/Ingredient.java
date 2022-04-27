@@ -2,7 +2,9 @@ package com.example.nutritiontracking;
 
 import org.json.JSONObject;
 
-public class Ingredient {
+import java.io.Serializable;
+
+public class Ingredient implements Serializable {
     String name;
     String brand;
     float cals;

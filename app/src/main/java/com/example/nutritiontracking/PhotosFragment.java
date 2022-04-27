@@ -92,8 +92,8 @@ public class PhotosFragment extends Fragment {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onClickOpenMealSummary(photoUri.toString());
                     MainActivity.currMeal.setPhotoURI(photoUri);
+                    onClickOpenMealSummary(photoUri);
                 }
             });
             ll.addView(iv);
@@ -110,11 +110,9 @@ public class PhotosFragment extends Fragment {
         width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
     }
 
-    public void onClickOpenMealSummary(String uri){
-        Bundle args = new Bundle();
-        args.putString("PATH", uri.toString());
+    public void onClickOpenMealSummary(Uri uri){
+        MainActivity.currMeal.setPhotoURI(uri);
         Fragment mealSummaryFrag = new MealSummaryFragment(MainActivity.currMeal);
-        mealSummaryFrag.setArguments(args);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);

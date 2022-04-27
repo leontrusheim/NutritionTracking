@@ -19,7 +19,7 @@ public class DailyGraphFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fragment dateFrag = new DateSelectorFragment();
+        Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.dateBar, dateFrag);
         fragmentTransaction.commit();

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,22 +22,20 @@ public class AddMealFragment extends Fragment {
     ArrayList<Meal> meals;
     GridLayout gl;
     int width;
+    String date;
 
-    public AddMealFragment() {
-        // Required empty public constructor
-    }
-
-    public AddMealFragment(ArrayList<Meal> meals) {
+    public AddMealFragment(ArrayList<Meal> meals, String date) {
         this.meals = meals;
+        this.date = date;
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // Put the date selector fragment within the UI of this fragment
-        Fragment dateFrag = new DateSelectorFragment();
+        Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.topBar, dateFrag);
         fragmentTransaction.commit();
@@ -63,7 +62,11 @@ public class AddMealFragment extends Fragment {
         if (meals != null){
             for (Meal m : meals) {
                 ImageView iv = new ImageView(context);
-                iv.setImageURI(m.getUri());
+                if (m.getUri() != null){
+                    iv.setImageURI(m.getUri());
+                }
+                else {iv.setImageDrawable(getResources().getDrawable(R.drawable.default_meal));}
+
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
                 iv.setLayoutParams(lp);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);

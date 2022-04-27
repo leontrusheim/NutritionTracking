@@ -21,11 +21,11 @@ import java.util.HashMap;
 public class NutrientFragment extends Fragment {
     public Activity containerActivity = null;
     public Ingredient curr;
-    Meal meal;
+    Meal meal = MainActivity.currMeal;
 
-    public NutrientFragment(Meal meal) {
-        this.meal = meal;
+    public NutrientFragment() {
     }
+
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
     }

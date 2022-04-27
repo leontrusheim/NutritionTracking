@@ -18,10 +18,9 @@ import java.util.ArrayList;
 
 public class FoodSearchFragment extends Fragment {
     public Activity containerActivity = null;
-    Meal meal;
+    Meal meal = MainActivity.currMeal;
 
-    public FoodSearchFragment(Meal meal) {
-        this.meal = meal;
+    public FoodSearchFragment() {
         // Required empty public constructor
     }
     public void setContainerActivity(Activity containerActivity) {

@@ -27,9 +27,14 @@ import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
     public static String searchTerm;
+
     public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
     public static HashMap<String, ArrayList<Meal>> meals = new HashMap<>();
-    public static String currDate;
+
+    public static Date date = new Date();
+
+    public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    public static String currDate = formatter.format(date);
     public static Meal currMeal;
 
     @Override
@@ -84,7 +89,7 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display Adding meal photos and replaces the UI to display it.
      */
     public void onClickViewMeals(View v){
-        Fragment mealFrag = new AddMealFragment();
+        Fragment mealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
         fragmentTransaction.commit();
@@ -119,41 +124,23 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void onClickSaveMeal(View v){
-        Fragment addMealFrag = new AddMealFragment(meals.get(currDate));
+        Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, addMealFrag);
         fragmentTransaction.commit();
     }
 
     public void onClickAddMeal(View v){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        String dateStr =  formatter.format(date);
-        System.out.println("DATE STRING" + dateStr);
-        currDate = dateStr;
-        System.out.println("CURRENT" + currDate);
-        Meal newMeal = new Meal();
-        currMeal = newMeal;
-        ArrayList<Meal> dateMeals;
-        if (meals.get(dateStr) == null){
-            System.out.println("MEALS ARE NULL");
-            dateMeals = new ArrayList<Meal>();
-            dateMeals.add(0, newMeal);
-        }
-        else{
-            dateMeals = meals.get(dateStr);
-            dateMeals.add(0, newMeal);
-        }
-        meals.put(dateStr, dateMeals);
+        createNewMeal();
 
-        Fragment photoFrag = new AddPhotoFragment(currMeal);
+        Fragment photoFrag = new AddPhotoFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, photoFrag);
         fragmentTransaction.commit();
     }
 
     public void setFoodSearchFragment(){
-        FoodSearchFragment searchFragment = new FoodSearchFragment(currMeal);
+        FoodSearchFragment searchFragment = new FoodSearchFragment();
         searchFragment.setContainerActivity(this);
         Bundle args = new Bundle();
         args.putSerializable("ingredients", ingredients);
@@ -224,7 +211,7 @@ public  class MainActivity extends AppCompatActivity {
     public void onClickShowNutrients(View v){
         int tag = (int) v.getTag();
 
-        NutrientFragment nutrientFragment = new NutrientFragment(currMeal);
+        NutrientFragment nutrientFragment = new NutrientFragment();
         nutrientFragment.setContainerActivity(this);
         Bundle args = new Bundle();
 
@@ -240,5 +227,29 @@ public  class MainActivity extends AppCompatActivity {
 
     public static void setCurrMeal(Meal currMeal) {
         MainActivity.currMeal = currMeal;
+    }
+
+    public static void createNewMeal(){
+        Meal newMeal = new Meal();
+        currMeal = newMeal;
+        ArrayList<Meal> dateMeals = meals.get(currDate);
+        if (dateMeals == null){
+            dateMeals = new ArrayList<Meal>();
+            meals.put(currDate, dateMeals);
+        }
+        dateMeals.add(0, newMeal);
+    }
+
+    public void onClickChangeDate(View v){
+        if (v.getId() == R.id.tomorrow){
+            int newDate = date.getDate() + 1;
+            date.setDate(newDate);
+        }
+        else{
+            int newDate = date.getDate() - 1;
+            date.setDate(newDate);
+        }
+        currDate = formatter.format(date);
+        onClickSaveMeal(v);
     }
 }
