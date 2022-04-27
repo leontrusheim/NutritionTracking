@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class DateSelectorFragment extends Fragment {
 
+    String date;
 
-    public DateSelectorFragment() {
-        // Required empty public constructor
+
+    public DateSelectorFragment(String date) {
+        this.date = date;
     }
 
 
@@ -25,6 +28,9 @@ public class DateSelectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_date_selector, container, false);
+        View v= inflater.inflate(R.layout.fragment_date_selector, container, false);
+        TextView dateTv = v.findViewById(R.id.date);
+        dateTv.setText(date);
+        return v;
     }
 }

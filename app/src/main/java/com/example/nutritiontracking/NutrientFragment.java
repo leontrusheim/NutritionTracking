@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,11 +20,12 @@ import java.util.HashMap;
 
 public class NutrientFragment extends Fragment {
     public Activity containerActivity = null;
-    String category;
+    public Ingredient curr;
+    Meal meal = MainActivity.currMeal;
 
     public NutrientFragment() {
-        // Required empty public constructor
     }
+
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
     }
@@ -37,31 +40,24 @@ public class NutrientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_nutrient, container, false);
-        String info = getArguments().getString("info");
+        Ingredient[] ingredients = (Ingredient[]) getArguments().getSerializable("ingredients");
+        curr = ingredients[0];
         TextView textView = v.findViewById(R.id.header);
-        textView.setText(info);
-        String[] nutrients =getArguments().getStringArray("nutrients");
-        ArrayAdapter arrayAdapter = new ArrayAdapter (containerActivity, R.layout.nutrient_list_row,
-                R.id.nutrient_list_row_item, nutrients) {
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(R.id.nutrient_list_row_item);
-                if (position == 0){
-                    category = "calories: ";
-                }else if (position == 1){
-                    category = "carbs: ";
-                }else if (position == 2){
-                    category = "fat: ";
-                } else {
-                    category = "protein: ";
-                }
-                String text = category + nutrients[position];
-                textView.setText(text);
-                return view;
+        textView.setText(curr.getName());
+        TextView tv = v.findViewById(R.id.nutrient);
+        tv.setText(curr.getNutrients());
+
+        Button b = v.findViewById(R.id.add_to_meal);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                meal.addIngredient(curr);
+                Fragment mealFrag = new MealSummaryFragment(meal);
+                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.mainContent, mealFrag);
+                fragmentTransaction.commit();
             }
-        };
-        ListView listView = v.findViewById(R.id.nutrient_list);
-        listView.setAdapter(arrayAdapter);
+        });
 
         return v;
     }

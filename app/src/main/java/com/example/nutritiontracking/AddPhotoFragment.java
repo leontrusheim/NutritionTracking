@@ -1,5 +1,6 @@
 package com.example.nutritiontracking;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 
 public class AddPhotoFragment extends Fragment {
 
@@ -28,8 +30,9 @@ public class AddPhotoFragment extends Fragment {
     String currentPhotoPath;
     int REQUEST_IMAGE_CAPTURE = 1;
 
+    Meal meal = MainActivity.currMeal;
+
     public AddPhotoFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -43,6 +46,7 @@ public class AddPhotoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_photo, container, false);
         Button b = v.findViewById(R.id.captureButton);
+
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +85,9 @@ public class AddPhotoFragment extends Fragment {
      *             with the new image taken with the camera.
      */
     public void onClickTakeCameraPhoto(View view) {
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -110,12 +116,10 @@ public class AddPhotoFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE){ //TODO && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            Bundle args = new Bundle();
-            args.putString("PATH", photoURI.toString());
-            Fragment mealSummaryFrag = new MealSummaryFragment();
-            mealSummaryFrag.setArguments(args);
+            meal.setPhotoURI(photoURI);
+            Fragment mealSummaryFrag = new MealSummaryFragment(meal);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
             fragmentTransaction.commit();

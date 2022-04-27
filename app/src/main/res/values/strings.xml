@@ -24,4 +24,5 @@
         <item>Calories</item>
         <item>Carbs</item>
     </string-array>
+    <string name="save_meal">Save Meal</string>
 </resources>

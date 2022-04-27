@@ -12,17 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
+    <TextView
+        style="@style/Body1"
+        android:id="@+id/nutrient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <Button
+        android:id="@+id/add_to_meal"
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_to_meal"/>
-
-    <ListView
-        android:id="@+id/nutrient_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="1dp"/>
 
 
 

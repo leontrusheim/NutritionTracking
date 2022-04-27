@@ -1,14 +1,11 @@
 package com.example.nutritiontracking;
 
 import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.Build;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +14,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FoodSearchFragment extends Fragment {
     public Activity containerActivity = null;
+    Meal meal = MainActivity.currMeal;
 
     public FoodSearchFragment() {
         // Required empty public constructor
@@ -48,24 +37,24 @@ public class FoodSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_food_search, container, false);
-        String foodName = getArguments().getString("keyword");
-        EditText text = v.findViewById(R.id.edit_food);
-        text.setText(foodName);
-        ArrayList<String[]> items = (ArrayList<String[]>) getArguments().
-                getSerializable("items");
-        HashMap<String[],String[]> nutrients = (HashMap<String[], String[]>) getArguments().
-                getSerializable("nutrients");
+        String searchTerm = getArguments().getString("searchTerm");
+        EditText editText = v.findViewById(R.id.edit_food);
+        editText.setText(searchTerm);
+        ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getArguments().getSerializable("ingredients");
+
         ArrayAdapter arrayAdapter = new ArrayAdapter (containerActivity, R.layout.food_list_row,
-                R.id.food_list_row_item, items) {
+                R.id.food_list_row_item, ingredients) {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView tvHeader = (TextView) view.findViewById(R.id.food_list_row_item);
                 TextView tvDetails = (TextView) view.findViewById(R.id.food_list_title);
-                String[] info = items.get(position);
-                String text = info[0] + "\nBrand Name: " + info[1];
-                tvHeader.setText(info[0]);
-                tvDetails.setText("Brand Name: " + info[1]);
-                tvHeader.setTag(nutrients.get(info));
+                Ingredient curr = ingredients.get(position);
+
+                tvHeader.setText(curr.getName());
+                tvDetails.setText(curr.getBrand());
+                tvHeader.setTag(position);
+                tvDetails.setTag(position);
+
                 return view;
             }
         };
