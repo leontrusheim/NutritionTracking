@@ -26,12 +26,16 @@ import java.util.Date;
 import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
+
+    public String example = "{\"dates\":[{\"date\":\"04/27/2022\",\"meals\":[{\"uri\":\"null\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"},{\"uri\":\"null\",\"ingredients\":[\"Mixed Lettuce\"],\"cals\":\"19.98\",\"carbs\":\"4.21\",\"proteins\":\"1.23\",\"fats\":\"0.2\"},{\"uri\":\"content://com.rypittner.android.fileprovider/my_images/JPEG__9006168466491347100.jpg\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"}]}]}";
     public static String searchTerm;
 
     public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
     public static HashMap<String, ArrayList<Meal>> meals = new HashMap<>();
 
     public static Date date = new Date();
+
+    public static ArrayList<String> dates = new ArrayList<String>();
 
     public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     public static String currDate = formatter.format(date);
@@ -41,6 +45,7 @@ public  class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        stringToMeals(example);
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
@@ -99,7 +104,7 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display the meal summary and replaces the UI to display it.
      */
     public void onClickMealSummary(View v){
-        Fragment mealSummaryFragment = new MealSummaryFragment(meals.get(currDate).get(0));
+        Fragment mealSummaryFragment = new MealSummaryFragment(currMeal);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
         fragmentTransaction.commit();
@@ -124,6 +129,26 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void onClickSaveMeal(View v){
+        if (!dates.contains(currDate)) {
+            dates.add(currDate);
+        }
+        ArrayList<Meal> dateMeals = meals.get(currDate);
+        if (dateMeals == null){
+            dateMeals = new ArrayList<Meal>();
+            meals.put(currDate, dateMeals);
+        }
+        if (!dateMeals.contains(currMeal)) {
+            dateMeals.add(0, currMeal);
+        }
+        System.out.println(currMeal.toString());
+        Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, addMealFrag);
+        fragmentTransaction.commit();
+        saveToFile();
+    }
+
+    public void reloadAddMealPage(){
         Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, addMealFrag);
@@ -232,12 +257,6 @@ public  class MainActivity extends AppCompatActivity {
     public static void createNewMeal(){
         Meal newMeal = new Meal();
         currMeal = newMeal;
-        ArrayList<Meal> dateMeals = meals.get(currDate);
-        if (dateMeals == null){
-            dateMeals = new ArrayList<Meal>();
-            meals.put(currDate, dateMeals);
-        }
-        dateMeals.add(0, newMeal);
     }
 
     public void onClickChangeDate(View v){
@@ -250,6 +269,47 @@ public  class MainActivity extends AppCompatActivity {
             date.setDate(newDate);
         }
         currDate = formatter.format(date);
-        onClickSaveMeal(v);
+        reloadAddMealPage();
+    }
+
+    public void saveToFile(){
+        String temp;
+        temp = "{\"dates\":[";
+        ArrayList<String> dateStrs = new ArrayList<String>();
+        for (String date: dates){
+            String dStr = "{\"date\":" + "\"" + date + "\",\"meals\":[";
+            ArrayList<Meal> currMeals = meals.get(date);
+            ArrayList<String> mealStr = new ArrayList<String>();
+            for (Meal m : currMeals){
+                mealStr.add(m.toString());
+            }
+            dStr += String.join(",",mealStr);
+            dStr += "]}";
+            dateStrs.add(dStr);
+        }
+
+        temp += String.join(",", dateStrs) + "]}";
+        System.out.println(temp);
+    }
+
+    public void stringToMeals(String s){
+        JSONObject obj = null;
+        try{obj = new JSONObject(s);
+            JSONArray jsonDates = obj.getJSONArray("dates");
+            for (int i = 0; i < jsonDates.length(); i++){
+                JSONObject date = jsonDates.getJSONObject(i);
+                String dateVal = date.getString("date");
+                dates.add(dateVal);
+                ArrayList<Meal> newMealList = new ArrayList<Meal>();
+                JSONArray jsonMeals = date.getJSONArray("meals");
+                for (int j = 0; j < jsonMeals.length(); j++){
+                    JSONObject meal = jsonMeals.getJSONObject(j);
+                    Meal newMeal = new Meal(meal);
+                    newMealList.add(newMeal);
+                }
+                meals.put(dateVal, newMealList);
+            }
+        }
+        catch(Exception e){e.printStackTrace();}
     }
 }
