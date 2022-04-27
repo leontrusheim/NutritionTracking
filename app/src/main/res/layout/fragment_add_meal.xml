@@ -22,9 +22,12 @@
         style="@style/Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Meal"/>
+        android:text="Add Meal"
+        android:onClick="onClickAddMeal"/>
 
-    <GridView
+    <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:id="@+id/meals_grid"/>
 </LinearLayout>

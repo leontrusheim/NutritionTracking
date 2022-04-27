@@ -4,16 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,14 +18,19 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
-    public static String foodName;
-    public static ArrayList<String[]> items = new ArrayList<String[]>();;
-    public static HashMap<String[],String[]> nutrients = new HashMap<String[],String[]>();;
-
+    public static String searchTerm;
+    public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    public static HashMap<String, ArrayList<Meal>> meals = new HashMap<>();
+    public static String currDate;
+    public static Meal currMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display the meal summary and replaces the UI to display it.
      */
     public void onClickMealSummary(View v){
-        Fragment mealSummaryFragment = new MealSummaryFragment();
+        Fragment mealSummaryFragment = new MealSummaryFragment(meals.get(currDate).get(0));
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
         fragmentTransaction.commit();
@@ -107,18 +107,57 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowFoodItems(View v){
+        ingredients.clear();
         EditText input = findViewById(R.id.edit_food);
-        foodName = String.valueOf(input.getText());
+        searchTerm = String.valueOf(input.getText());
         new SearchTask().execute();
     }
 
+    public void onClickClearEditText(View v){
+        EditText et = findViewById(R.id.edit_food);
+        et.setText("");
+    }
+
+    public void onClickSaveMeal(View v){
+        Fragment addMealFrag = new AddMealFragment(meals.get(currDate));
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, addMealFrag);
+        fragmentTransaction.commit();
+    }
+
+    public void onClickAddMeal(View v){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String dateStr =  formatter.format(date);
+        System.out.println("DATE STRING" + dateStr);
+        currDate = dateStr;
+        System.out.println("CURRENT" + currDate);
+        Meal newMeal = new Meal();
+        currMeal = newMeal;
+        ArrayList<Meal> dateMeals;
+        if (meals.get(dateStr) == null){
+            System.out.println("MEALS ARE NULL");
+            dateMeals = new ArrayList<Meal>();
+            dateMeals.add(0, newMeal);
+        }
+        else{
+            dateMeals = meals.get(dateStr);
+            dateMeals.add(0, newMeal);
+        }
+        meals.put(dateStr, dateMeals);
+
+        Fragment photoFrag = new AddPhotoFragment(currMeal);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, photoFrag);
+        fragmentTransaction.commit();
+    }
+
     public void setFoodSearchFragment(){
-        FoodSearchFragment searchFragment = new FoodSearchFragment();
+        FoodSearchFragment searchFragment = new FoodSearchFragment(currMeal);
         searchFragment.setContainerActivity(this);
         Bundle args = new Bundle();
-        args.putSerializable("items", items);
-        args.putSerializable("nutrients", nutrients);
-        args.putString("foodName", foodName);
+        args.putSerializable("ingredients", ingredients);
+        args.putString("searchTerm", searchTerm);
         searchFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -136,22 +175,12 @@ public  class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject jsonFood) {
             try {
-                items = new ArrayList<String[]>();
-                nutrients = new HashMap<String[],String[]>();
                 JSONArray infoArray = jsonFood.getJSONArray("hits");
                 for (int i = 0; i < infoArray.length(); i++){
                     JSONObject infos = infoArray.getJSONObject(i);
                     JSONObject info = infos.getJSONObject("fields");
-                    String itemName = info.optString("item_name");
-                    String brandName = info.optString("brand_name");
-                    String calories = info.optString("nf_calories");
-                    String carbs = info.optString("nf_total_carbohydrate");
-                    String fat = info.optString("nf_total_fat");
-                    String protein = info.optString("nf_protein");
-                    String[] key = new String[]{itemName,brandName};
-                    String[] values = new String[]{calories,carbs,fat,protein};
-                    items.add(key);
-                    nutrients.put(key,values);
+                    Ingredient ingredient = new Ingredient(info);
+                    ingredients.add(ingredient);
                 }
                 setFoodSearchFragment();
 
@@ -167,7 +196,7 @@ public  class MainActivity extends AppCompatActivity {
             String json = "";
             String line;
             URL url = new URL("https://api.nutritionix.com/v1_1/search/" +
-                    foodName + "?results=0:50&fields=item_name,brand_name,nf_calories,nf_total_fat" +
+                    searchTerm + "?results=0:50&fields=item_name,brand_name,nf_calories,nf_total_fat" +
                     ",nf_total_carbohydrate,nf_protein,&appId=267a1365&appKey=" +
                     "4d11e256992595b46b476dd78c395b30");
             URLConnection urlc = url.openConnection();
@@ -189,25 +218,27 @@ public  class MainActivity extends AppCompatActivity {
         return null;
     }
 
-
     /**
      * Creates a fragment to display nutrients for a food item and replaces the UI to display it.
      */
     public void onClickShowNutrients(View v){
-        String text = (String)((TextView)v).getText();
-        NutrientFragment nutrientFragment = new NutrientFragment();
+        int tag = (int) v.getTag();
+
+        NutrientFragment nutrientFragment = new NutrientFragment(currMeal);
         nutrientFragment.setContainerActivity(this);
         Bundle args = new Bundle();
-        String[] nutrients = (String[]) ((TextView)v).getTag();
-        args.putStringArray("nutrients", nutrients);
-        args.putString("info", text);
+
+        // get and put the ingredient into the bundle
+        args.putSerializable("ingredients", new Ingredient[]{ingredients.get(tag)});
         nutrientFragment.setArguments(args);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, nutrientFragment);
         fragmentTransaction.commit();
     }
 
-
-
+    public static void setCurrMeal(Meal currMeal) {
+        MainActivity.currMeal = currMeal;
+    }
 }

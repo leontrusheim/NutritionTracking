@@ -27,9 +27,11 @@ public class AddPhotoFragment extends Fragment {
     Uri photoURI;
     String currentPhotoPath;
     int REQUEST_IMAGE_CAPTURE = 1;
+    Meal meal;
 
-    public AddPhotoFragment() {
-        // Required empty public constructor
+
+    public AddPhotoFragment(Meal meal) {
+        this.meal = meal;
     }
 
     @Override
@@ -114,7 +116,8 @@ public class AddPhotoFragment extends Fragment {
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             Bundle args = new Bundle();
             args.putString("PATH", photoURI.toString());
-            Fragment mealSummaryFrag = new MealSummaryFragment();
+            meal.setPhotoURI(photoURI);
+            Fragment mealSummaryFrag = new MealSummaryFragment(meal);
             mealSummaryFrag.setArguments(args);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
