@@ -15,9 +15,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +32,7 @@ import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
 
-    public String example = "{\"dates\":[{\"date\":\"04/27/2022\",\"meals\":[{\"uri\":\"null\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"},{\"uri\":\"null\",\"ingredients\":[\"Mixed Lettuce\"],\"cals\":\"19.98\",\"carbs\":\"4.21\",\"proteins\":\"1.23\",\"fats\":\"0.2\"},{\"uri\":\"content://com.rypittner.android.fileprovider/my_images/JPEG__9006168466491347100.jpg\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"}]}]}";
+    //public String example = "{\"dates\":[{\"date\":\"04/27/2022\",\"meals\":[{\"uri\":\"null\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"},{\"uri\":\"null\",\"ingredients\":[\"Mixed Lettuce\"],\"cals\":\"19.98\",\"carbs\":\"4.21\",\"proteins\":\"1.23\",\"fats\":\"0.2\"},{\"uri\":\"content://com.rypittner.android.fileprovider/my_images/JPEG__9006168466491347100.jpg\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"}]}]}";
     public static String searchTerm;
 
     public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -45,7 +50,8 @@ public  class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        stringToMeals(example);
+        readFiles();
+        //stringToMeals(example);
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
@@ -289,7 +295,16 @@ public  class MainActivity extends AppCompatActivity {
         }
 
         temp += String.join(",", dateStrs) + "]}";
-        System.out.println(temp);
+
+        String filename = "data.txt";
+        String fileContents = temp;
+        try {
+            FileOutputStream fos = getBaseContext().openFileOutput(filename, MODE_PRIVATE);
+            fos.write(fileContents.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void stringToMeals(String s){
@@ -311,5 +326,31 @@ public  class MainActivity extends AppCompatActivity {
             }
         }
         catch(Exception e){e.printStackTrace();}
+    }
+
+    public void readFiles(){
+        FileInputStream fis = null;
+        try{
+             fis = getBaseContext().openFileInput("data.txt");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        InputStreamReader inputStreamReader =
+                new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+            String line = reader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append('\n');
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            // Error occurred when opening raw file for reading.
+        } finally {
+            String contents = stringBuilder.toString();
+            stringToMeals(contents);
+        }
+
     }
 }
