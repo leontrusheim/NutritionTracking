@@ -26,7 +26,7 @@ public class Meal implements Serializable {
     }
 
     public Meal(JSONObject jsonObject){
-        Uri.decode(jsonObject.optString("uri"));
+        Uri.parse(jsonObject.optString("uri"));
         cals = Float.parseFloat(jsonObject.optString("cals"));
         carbs = Float.parseFloat(jsonObject.optString("carbs"));
         proteins = Float.parseFloat(jsonObject.optString("proteins"));
