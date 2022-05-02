@@ -50,12 +50,25 @@ public  class MainActivity extends AppCompatActivity {
     public static String currDate = formatter.format(date);
     public static Meal currMeal;
 
+    public boolean fileInit;
+    public static final String FILE_INIT = "FILE_INIT";
+
+    public SharedPreferences sharedPrefs;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initialize file to store data if not already initialized
+        sharedPrefs = getPreferences(Context.MODE_PRIVATE);
+        editor = sharedPrefs.edit();
+        fileInit = sharedPrefs.getBoolean(FILE_INIT, false);
+        if (! fileInit){
+            saveToFile();
+        }
         readFiles();
-        //stringToMeals(example);
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
@@ -350,6 +363,8 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void saveToFile(){
+        editor.putBoolean(FILE_INIT, true);
+        editor.commit();
         String temp;
         temp = "{\"dates\":[";
         ArrayList<String> dateStrs = new ArrayList<String>();
@@ -396,7 +411,10 @@ public  class MainActivity extends AppCompatActivity {
                 meals.put(dateVal, newMealList);
             }
         }
-        catch(Exception e){e.printStackTrace();}
+        catch(Exception e){
+            System.out.println("THIS SORT OF CRASH OCCURED");
+            e.printStackTrace();
+        }
     }
 
     public void readFiles(){
