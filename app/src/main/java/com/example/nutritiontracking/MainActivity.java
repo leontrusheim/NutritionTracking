@@ -13,31 +13,49 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
-    public static String foodName;
-    public static ArrayList<String[]> items = new ArrayList<String[]>();;
-    public static HashMap<String[],String[]> nutrients = new HashMap<String[],String[]>();;
 
+    //public String example = "{\"dates\":[{\"date\":\"04/27/2022\",\"meals\":[{\"uri\":\"null\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"},{\"uri\":\"null\",\"ingredients\":[\"Mixed Lettuce\"],\"cals\":\"19.98\",\"carbs\":\"4.21\",\"proteins\":\"1.23\",\"fats\":\"0.2\"},{\"uri\":\"content://com.rypittner.android.fileprovider/my_images/JPEG__9006168466491347100.jpg\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"}]}]}";
+    public static String searchTerm;
+
+    public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    public static HashMap<String, ArrayList<Meal>> meals = new HashMap<>();
+
+    public static Date date = new Date();
+
+    public static ArrayList<String> dates = new ArrayList<String>();
+
+    public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    public static String currDate = formatter.format(date);
+    public static Meal currMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        readFiles();
+        //stringToMeals(example);
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
@@ -88,7 +106,7 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display Adding meal photos and replaces the UI to display it.
      */
     public void onClickViewMeals(View v){
-        Fragment mealFrag = new AddMealFragment();
+        Fragment mealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
         fragmentTransaction.commit();
@@ -98,7 +116,7 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display the meal summary and replaces the UI to display it.
      */
     public void onClickMealSummary(View v){
-        Fragment mealSummaryFragment = new MealSummaryFragment();
+        Fragment mealSummaryFragment = new MealSummaryFragment(currMeal);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
         fragmentTransaction.commit();
@@ -176,18 +194,59 @@ public  class MainActivity extends AppCompatActivity {
 
 
     public void OnClickShowFoodItems(View v){
+        ingredients.clear();
         EditText input = findViewById(R.id.edit_food);
-        foodName = String.valueOf(input.getText());
+        searchTerm = String.valueOf(input.getText());
         new SearchTask().execute();
+    }
+
+    public void onClickClearEditText(View v){
+        EditText et = findViewById(R.id.edit_food);
+        et.setText("");
+    }
+
+    public void onClickSaveMeal(View v){
+        if (!dates.contains(currDate)) {
+            dates.add(currDate);
+        }
+        ArrayList<Meal> dateMeals = meals.get(currDate);
+        if (dateMeals == null){
+            dateMeals = new ArrayList<Meal>();
+            meals.put(currDate, dateMeals);
+        }
+        if (!dateMeals.contains(currMeal)) {
+            dateMeals.add(0, currMeal);
+        }
+        System.out.println(currMeal.toString());
+        Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, addMealFrag);
+        fragmentTransaction.commit();
+        saveToFile();
+    }
+
+    public void reloadAddMealPage(){
+        Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, addMealFrag);
+        fragmentTransaction.commit();
+    }
+
+    public void onClickAddMeal(View v){
+        createNewMeal();
+
+        Fragment photoFrag = new AddPhotoFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContent, photoFrag);
+        fragmentTransaction.commit();
     }
 
     public void setFoodSearchFragment(){
         FoodSearchFragment searchFragment = new FoodSearchFragment();
         searchFragment.setContainerActivity(this);
         Bundle args = new Bundle();
-        args.putSerializable("items", items);
-        args.putSerializable("nutrients", nutrients);
-        args.putString("foodName", foodName);
+        args.putSerializable("ingredients", ingredients);
+        args.putString("searchTerm", searchTerm);
         searchFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -205,22 +264,12 @@ public  class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject jsonFood) {
             try {
-                items = new ArrayList<String[]>();
-                nutrients = new HashMap<String[],String[]>();
                 JSONArray infoArray = jsonFood.getJSONArray("hits");
                 for (int i = 0; i < infoArray.length(); i++){
                     JSONObject infos = infoArray.getJSONObject(i);
                     JSONObject info = infos.getJSONObject("fields");
-                    String itemName = info.optString("item_name");
-                    String brandName = info.optString("brand_name");
-                    String calories = info.optString("nf_calories");
-                    String carbs = info.optString("nf_total_carbohydrate");
-                    String fat = info.optString("nf_total_fat");
-                    String protein = info.optString("nf_protein");
-                    String[] key = new String[]{itemName,brandName};
-                    String[] values = new String[]{calories,carbs,fat,protein};
-                    items.add(key);
-                    nutrients.put(key,values);
+                    Ingredient ingredient = new Ingredient(info);
+                    ingredients.add(ingredient);
                 }
                 setFoodSearchFragment();
 
@@ -236,7 +285,7 @@ public  class MainActivity extends AppCompatActivity {
             String json = "";
             String line;
             URL url = new URL("https://api.nutritionix.com/v1_1/search/" +
-                    foodName + "?results=0:50&fields=item_name,brand_name,nf_calories,nf_total_fat" +
+                    searchTerm + "?results=0:50&fields=item_name,brand_name,nf_calories,nf_total_fat" +
                     ",nf_total_carbohydrate,nf_protein,&appId=267a1365&appKey=" +
                     "4d11e256992595b46b476dd78c395b30");
             URLConnection urlc = url.openConnection();
@@ -258,28 +307,121 @@ public  class MainActivity extends AppCompatActivity {
         return null;
     }
 
-
     /**
      * Creates a fragment to display nutrients for a food item and replaces the UI to display it.
      */
     public void onClickShowNutrients(View v){
-        String text = (String)((TextView)v).getText();
+        int tag = (int) v.getTag();
+
         NutrientFragment nutrientFragment = new NutrientFragment();
         nutrientFragment.setContainerActivity(this);
         Bundle args = new Bundle();
-        String[] nutrients = (String[]) ((TextView)v).getTag();
-        args.putStringArray("nutrients", nutrients);
-        args.putString("info", text);
+
+        // get and put the ingredient into the bundle
+        args.putSerializable("ingredients", new Ingredient[]{ingredients.get(tag)});
         nutrientFragment.setArguments(args);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, nutrientFragment);
         fragmentTransaction.commit();
     }
 
-    public void onClickCameraIntent(View v){
-
+    public static void setCurrMeal(Meal currMeal) {
+        MainActivity.currMeal = currMeal;
     }
 
+    public static void createNewMeal(){
+        Meal newMeal = new Meal();
+        currMeal = newMeal;
+    }
 
+    public void onClickChangeDate(View v){
+        if (v.getId() == R.id.tomorrow){
+            int newDate = date.getDate() + 1;
+            date.setDate(newDate);
+        }
+        else{
+            int newDate = date.getDate() - 1;
+            date.setDate(newDate);
+        }
+        currDate = formatter.format(date);
+        reloadAddMealPage();
+    }
+
+    public void saveToFile(){
+        String temp;
+        temp = "{\"dates\":[";
+        ArrayList<String> dateStrs = new ArrayList<String>();
+        for (String date: dates){
+            String dStr = "{\"date\":" + "\"" + date + "\",\"meals\":[";
+            ArrayList<Meal> currMeals = meals.get(date);
+            ArrayList<String> mealStr = new ArrayList<String>();
+            for (Meal m : currMeals){
+                mealStr.add(m.toString());
+            }
+            dStr += String.join(",",mealStr);
+            dStr += "]}";
+            dateStrs.add(dStr);
+        }
+
+        temp += String.join(",", dateStrs) + "]}";
+
+        String filename = "data.txt";
+        String fileContents = temp;
+        try {
+            FileOutputStream fos = getBaseContext().openFileOutput(filename, MODE_PRIVATE);
+            fos.write(fileContents.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void stringToMeals(String s){
+        JSONObject obj = null;
+        try{obj = new JSONObject(s);
+            JSONArray jsonDates = obj.getJSONArray("dates");
+            for (int i = 0; i < jsonDates.length(); i++){
+                JSONObject date = jsonDates.getJSONObject(i);
+                String dateVal = date.getString("date");
+                dates.add(dateVal);
+                ArrayList<Meal> newMealList = new ArrayList<Meal>();
+                JSONArray jsonMeals = date.getJSONArray("meals");
+                for (int j = 0; j < jsonMeals.length(); j++){
+                    JSONObject meal = jsonMeals.getJSONObject(j);
+                    Meal newMeal = new Meal(meal);
+                    newMealList.add(newMeal);
+                }
+                meals.put(dateVal, newMealList);
+            }
+        }
+        catch(Exception e){e.printStackTrace();}
+    }
+
+    public void readFiles(){
+        FileInputStream fis = null;
+        try{
+             fis = getBaseContext().openFileInput("data.txt");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        InputStreamReader inputStreamReader =
+                new InputStreamReader(fis, StandardCharsets.UTF_8);
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
+            String line = reader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append('\n');
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            // Error occurred when opening raw file for reading.
+        } finally {
+            String contents = stringBuilder.toString();
+            stringToMeals(contents);
+        }
+
+    }
 }

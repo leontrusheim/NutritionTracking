@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.33"
-            android:text="enter food"/>
+            android:text="enter food"
+            android:onClick="onClickClearEditText"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
