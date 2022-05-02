@@ -18,7 +18,8 @@
         android:layout_weight="0.3"
         android:text="@string/daily"
         style="@style/BigButton"
-        android:backgroundTint="@color/green_dark"/>
+        android:backgroundTint="@color/green_dark"
+        android:onClick="OnClickShowDailySummary"/>
 
     <Button
         android:id="@+id/weekly_button"
@@ -27,6 +28,7 @@
         android:layout_weight="0.3"
         android:text="@string/weekly"
         android:backgroundTint="@color/green_med"
-        style="@style/BigButton"/>
+        style="@style/BigButton"
+        android:onClick="OnClickShowWeeklySummary"/>
 
 </LinearLayout>

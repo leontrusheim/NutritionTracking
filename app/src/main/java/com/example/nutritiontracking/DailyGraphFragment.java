@@ -1,5 +1,6 @@
 package com.example.nutritiontracking;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -31,28 +32,30 @@ public class DailyGraphFragment extends Fragment {
     int proteinPercent;
     int fatPercent;
     int carbsPercent;
+    public Activity containerActivity = null;
 
     public DailyGraphFragment() {
         // Required empty public constructor
     }
 
+    public void setContainerActivity(Activity containerActivity) {
+        this.containerActivity = containerActivity;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
         Fragment dateFrag = new DateSelectorFragment();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.dateBar, dateFrag);
         fragmentTransaction.commit();
-        */
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        nutrients.put("Protein", 100);
-        nutrients.put("Fat", 130);
-        nutrients.put("Carbs", 200);
+        nutrients = (HashMap<String, Integer>) getArguments().getSerializable("nutrients");
         total_calories = nutrients.get("Protein") * 4 + nutrients.get("Fat") * 9 +
                          nutrients.get("Carbs") * 4;
         proteinPercent = nutrients.get("Protein") * 400 / total_calories;
@@ -88,17 +91,17 @@ public class DailyGraphFragment extends Fragment {
                 new PieModel(
                         "Protein",
                         dataset[0],
-                        Color.parseColor("#FFA726")));
+                        getResources().getColor(R.color.protein)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Fat",
                         dataset[1],
-                        Color.parseColor("#66BB6A")));
+                        getResources().getColor(R.color.fat)));
         pieChart.addPieSlice(
                 new PieModel(
                         "Carbs",
                         dataset[2],
-                        Color.parseColor("#EF5350")));
+                        getResources().getColor(R.color.carbs)));
 
         // To animate the pie chart
         pieChart.startAnimation();

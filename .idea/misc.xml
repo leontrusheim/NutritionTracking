@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/leont/AndroidStudioProjects/NutritionTracking/app/src/main/res/layout/fragment_daily_graph.xml" value="0.30416666666666664" />
-        <entry key="..\:/Users/leont/AndroidStudioProjects/NutritionTracking/app/src/main/res/layout/fragment_weekly_graph.xml" value="0.5857275254865616" />
+        <entry key="..\:/Users/leont/AndroidStudioProjects/NutritionTracking/app/src/main/res/layout/fragment_progress_selector.xml" value="0.5857275254865616" />
+        <entry key="..\:/Users/leont/AndroidStudioProjects/NutritionTracking/app/src/main/res/layout/fragment_weekly_graph.xml" value="0.5195729537366548" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19907989501953127" />
         <entry key="app/src/main/res/layout/dropdown_menu_item.xml" value="0.24444444444444444" />
         <entry key="app/src/main/res/layout/file_paths.xml" value="0.16296296296296298" />
