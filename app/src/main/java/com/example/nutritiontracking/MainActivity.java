@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import org.json.JSONArray;
@@ -80,8 +84,10 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display Progress menu and replaces the UI to display it.
      */
     public void onClickViewProgress(View v){
-        Fragment progressFrag = new ProgressSelectorFragment();
+        ProgressSelectorFragment progressFrag = new ProgressSelectorFragment();
+        progressFrag.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, progressFrag);
         fragmentTransaction.commit();
     }
@@ -121,6 +127,71 @@ public  class MainActivity extends AppCompatActivity {
     public void OnClickSearchFoodItems(View v){
         setFoodSearchFragment();
     }
+
+    public void OnClickShowDailySummary(View v){
+        HashMap nutrientVals = new HashMap<String, int[]>();
+        nutrientVals.put("Protein", 100);
+        nutrientVals.put("Fat", 130);
+        nutrientVals.put("Carbs", 200);
+        DailyGraphFragment dailyGraphFragment = new DailyGraphFragment();
+        dailyGraphFragment.setContainerActivity(this);
+        Bundle args = new Bundle();
+        args.putSerializable("nutrients", nutrientVals);
+        dailyGraphFragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.mainContent, dailyGraphFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void OnClickShowWeeklySummary(View v){
+        HashMap nutrientVals = new HashMap<String, int[]>();
+        int [] values = new int[]{100,150,200,50,75,300,125};
+        nutrientVals.put("Kcal", values);
+        nutrientVals.put("Protein", values);
+        nutrientVals.put("Fat", values);
+        nutrientVals.put("Carbs", values);
+        int target = 300;
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment();
+        weeklyGraphFragment.setContainerActivity(this);
+        Bundle args = new Bundle();
+        args.putString("nutrient","Kcal");
+        String color = "#8FDD34";
+        args.putString("color", color);
+        args.putSerializable("nutrients", nutrientVals);
+        args.putInt("target", target);
+        weeklyGraphFragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void OnClickUpdateWeeklySummary(View v){
+        HashMap nutrientVals = new HashMap<String, int[]>();
+        int [] values = new int[]{100,150,200,50,75,300,125};
+        int target = 300;
+        nutrientVals.put("Kcal", values);
+        nutrientVals.put("Protein", values);
+        nutrientVals.put("Fat", values);
+        nutrientVals.put("Carbs", values);
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment();
+        weeklyGraphFragment.setContainerActivity(this);
+        Bundle args = new Bundle();
+        Button b = (Button) v;
+        String color = (String) b.getTag();
+        String nutrient = (String) b.getText();
+        args.putString("nutrient",nutrient);
+        args.putString("color", color);
+        args.putSerializable("nutrients", nutrientVals);
+        args.putInt("target", target);
+        weeklyGraphFragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
+        fragmentTransaction.commit();
+    }
+
 
     public void OnClickShowFoodItems(View v){
         ingredients.clear();

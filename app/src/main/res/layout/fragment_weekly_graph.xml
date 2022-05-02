@@ -1,17 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeeklyGraphFragment"
-    android:orientation="vertical">
+    tools:context=".WeeklyGraphFragment">
 
-    <TextView
-        style="@style/Heading1"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/caloriesButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Weekly Progress"/>
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/green_light"
+        android:text="Kcal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="OnClickUpdateWeeklySummary"
+        android:tag="@color/green_light"/>
 
+    <Button
+        android:id="@+id/proteinButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/protein"
+        android:text="Protein"
+        app:layout_constraintStart_toEndOf="@id/caloriesButton"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="OnClickUpdateWeeklySummary"
+        android:tag="@color/protein"/>
+
+    <Button
+        android:id="@+id/fatButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/fat"
+        android:text="Fat"
+        app:layout_constraintStart_toEndOf="@id/proteinButton"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="OnClickUpdateWeeklySummary"
+        android:tag="@color/fat"/>
+
+    <Button
+        android:id="@+id/carbsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="4dp"
+        android:backgroundTint="@color/carbs"
+        android:text="Carbs"
+        app:layout_constraintStart_toEndOf="@id/fatButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="OnClickUpdateWeeklySummary"
+        android:tag="@color/carbs"/>
+
+    <!--
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
@@ -21,4 +69,16 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@color/green_med"/>
-</LinearLayout>
+         -->
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/idBarChart"
+        android:layout_width="0dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/fatButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
