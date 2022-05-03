@@ -1,11 +1,14 @@
 package com.example.nutritiontracking;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,10 +79,15 @@ public class AddMealFragment extends Fragment {
         if (meals != null){
             for (Meal m : meals) {
                 ImageView iv = new ImageView(context);
-                if (m.getUri() != null){
+                if (m.getBitmap() != null){
+                    iv.setImageBitmap(m.getBitmap());
+                }
+                else if (m.getUri() != null){
                     iv.setImageURI(m.getUri());
                 }
-                else {iv.setImageDrawable(getResources().getDrawable(R.drawable.default_meal));}
+                else {
+                    iv.setImageDrawable(getResources().getDrawable(R.drawable.default_meal));
+                }
 
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
                 iv.setLayoutParams(lp);

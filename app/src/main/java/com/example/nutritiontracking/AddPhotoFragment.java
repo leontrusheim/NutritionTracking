@@ -13,12 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -118,7 +120,8 @@ public class AddPhotoFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
-            meal.setPhotoURI(photoURI);
+            meal.setBitmap(imageBitmap);
+            //meal.setPhotoURI(photoURI);
             Fragment mealSummaryFrag = new MealSummaryFragment(meal);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);

@@ -32,7 +32,6 @@ import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
 
-    //public String example = "{\"dates\":[{\"date\":\"04/27/2022\",\"meals\":[{\"uri\":\"null\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"},{\"uri\":\"null\",\"ingredients\":[\"Mixed Lettuce\"],\"cals\":\"19.98\",\"carbs\":\"4.21\",\"proteins\":\"1.23\",\"fats\":\"0.2\"},{\"uri\":\"content://com.rypittner.android.fileprovider/my_images/JPEG__9006168466491347100.jpg\",\"ingredients\":[],\"cals\":\"0.0\",\"carbs\":\"0.0\",\"proteins\":\"0.0\",\"fats\":\"0.0\"}]}]}";
     public static String searchTerm;
 
     public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -155,22 +154,23 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowWeeklySummary(View v){
-        HashMap nutrientVals = new HashMap<String, int[]>();
-        int [] values = new int[]{100,150,200,50,75,300,125};
-        nutrientVals.put("Kcal", values);
-        nutrientVals.put("Protein", values);
-        nutrientVals.put("Fat", values);
-        nutrientVals.put("Carbs", values);
-        int target = 300;
-        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment();
+        //HashMap nutrientVals = new HashMap<String, int[]>();
+        //int [] values = new int[]{100,150,200,50,75,300,125};
+        //nutrientVals.put("Kcal", values);
+        //nutrientVals.put("Protein", values);
+        //nutrientVals.put("Fat", values);
+        //nutrientVals.put("Carbs", values);
+        //int target = 300;
+        int target = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("kcal", "#8FDD34", target);
         weeklyGraphFragment.setContainerActivity(this);
-        Bundle args = new Bundle();
-        args.putString("nutrient","Kcal");
-        String color = "#8FDD34";
-        args.putString("color", color);
-        args.putSerializable("nutrients", nutrientVals);
-        args.putInt("target", target);
-        weeklyGraphFragment.setArguments(args);
+        //Bundle args = new Bundle();
+        //args.putString("nutrient","Kcal");
+        //String color = "#8FDD34";
+        //args.putString("color", color);
+        //args.putSerializable("nutrients", nutrientVals);
+        //args.putInt("target", target);
+        //weeklyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
@@ -178,24 +178,39 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickUpdateWeeklySummary(View v){
-        HashMap nutrientVals = new HashMap<String, int[]>();
-        int [] values = new int[]{100,150,200,50,75,300,125};
-        int target = 300;
-        nutrientVals.put("Kcal", values);
-        nutrientVals.put("Protein", values);
-        nutrientVals.put("Fat", values);
-        nutrientVals.put("Carbs", values);
-        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment();
-        weeklyGraphFragment.setContainerActivity(this);
-        Bundle args = new Bundle();
+        //HashMap nutrientVals = new HashMap<String, int[]>();
+        //int [] values = new int[]{100,150,200,50,75,300,125};
+        //int target = 300;
+        //nutrientVals.put("Kcal", values);
+        //nutrientVals.put("Protein", values);
+        //nutrientVals.put("Fat", values);
+        //nutrientVals.put("Carbs", values);
         Button b = (Button) v;
-        String color = (String) b.getTag();
         String nutrient = (String) b.getText();
-        args.putString("nutrient",nutrient);
-        args.putString("color", color);
-        args.putSerializable("nutrients", nutrientVals);
-        args.putInt("target", target);
-        weeklyGraphFragment.setArguments(args);
+        System.out.println(nutrient);
+        String color = (String) b.getTag();
+
+        int targetCals = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
+
+        int target = sharedPrefs.getInt(nutrient, 50);
+        if (nutrient.equals(SettingsFragment.CARB) || nutrient.equals(SettingsFragment.PROTEIN)){
+            target = (int) (targetCals * target) / (400 * 100);
+        }
+        else if (nutrient.equals(SettingsFragment.FAT)){
+            target = (int) (targetCals * target) / (900 * 100);
+        }
+
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment(nutrient, color, target);
+        weeklyGraphFragment.setContainerActivity(this);
+        //Bundle args = new Bundle();
+        //Button b = (Button) v;
+
+        //String nutrient = (String) b.getText();
+        //args.putString("nutrient",nutrient);
+        //args.putString("color", color);
+        //args.putSerializable("nutrients", nutrientVals);
+        //args.putInt("target", target);
+        //weeklyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
