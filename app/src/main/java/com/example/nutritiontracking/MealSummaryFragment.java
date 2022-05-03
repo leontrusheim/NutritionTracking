@@ -1,5 +1,6 @@
 package com.example.nutritiontracking;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,12 +23,15 @@ public class MealSummaryFragment extends Fragment {
     Meal meal;
     TextView ingredients;
 
+    Bitmap bitmap;
+
     Uri photoURI;
 
 
     public MealSummaryFragment(Meal meal) {
         this.meal = meal;
         photoURI = meal.getUri();
+        bitmap = meal.getBitmap();
     }
 
     @Override
@@ -45,12 +49,12 @@ public class MealSummaryFragment extends Fragment {
         ingredients = inflatedView.findViewById(R.id.ingredients_list);
         ingredients.setText(meal.getIngredients());
         tv.setText(meal.getNutrients());
-        if (photoURI != null){
-            iv.setImageURI(photoURI);
+        if (bitmap != null){
+            iv.setImageBitmap(bitmap);
         }
         else{
             iv.setImageResource(R.drawable.default_meal);
-            iv.setBackgroundColor(getResources().getColor(R.color.green_med));};
+        };
         return inflatedView;
     }
 }

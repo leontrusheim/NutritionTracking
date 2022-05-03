@@ -27,46 +27,50 @@
         android:layout_height="wrap_content"
         android:textColor="@color/grey"
         android:paddingBottom="40dp"/>
-    <SeekBar
-        android:id="@+id/seek_carbs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/green_dark"
-        android:thumbTint="@color/green_dark"/>
-
-    <TextView
-        android:id="@+id/carbsText"
-        style="@style/Body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/green_dark"/>
-
-    <SeekBar
-        android:id="@+id/seek_fat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progressTint="@color/green_med"
-        android:thumbTint="@color/green_med"/>
-
-    <TextView
-        android:id="@+id/fatText"
-        style="@style/Body1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/green_med"/>
 
     <SeekBar
         android:id="@+id/seek_protein"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressTint="@color/green_light"
-        android:thumbTint="@color/green_light"/>
+        android:progressTint="@color/protein"
+        android:thumbTint="@color/protein"/>
 
     <TextView
         android:id="@+id/proteinText"
         style="@style/Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/green_light"/>
+        android:textColor="@color/protein"/>
+
+
+    <SeekBar
+        android:id="@+id/seek_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/fat"
+        android:thumbTint="@color/fat"/>
+
+    <TextView
+        android:id="@+id/fatText"
+        style="@style/Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/fat"/>
+
+    <SeekBar
+        android:id="@+id/seek_carbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/carbs"
+        android:thumbTint="@color/carbs"/>
+
+    <TextView
+        android:id="@+id/carbsText"
+        style="@style/Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/carbs"/>
+
+
 
 </LinearLayout>

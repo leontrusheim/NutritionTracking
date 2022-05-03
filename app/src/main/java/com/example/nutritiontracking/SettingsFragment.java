@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
-    public String CAL = "CALORIES";
-    public String FAT = "FATS";
-    public String PROTEIN = "PROTEINS";
-    public  String CARB = "CARBS";
-    public String[] types = {CAL, CARB, FAT, PROTEIN};
+    public static String CAL = "kcal";
+    public static String FAT = "fat";
+    public static String PROTEIN = "protein";
+    public static String CARB = "carbs";
+    public String[] types = {CAL, PROTEIN, FAT, CARB};
 
     public Activity invokerActivity;
     public static SharedPreferences sharedPrefs;
@@ -91,7 +91,7 @@ public class SettingsFragment extends Fragment {
         int carbs = sharedPrefs.getInt(CARB, 30);
         int fats = sharedPrefs.getInt(FAT, 20);
         int proteins = sharedPrefs.getInt(PROTEIN, 50);
-        vals = new int[]{cals, carbs, fats, proteins};
+        vals = new int[]{cals, proteins, fats, carbs};
     }
 
     public void setSeekBars(View v){
@@ -105,8 +105,8 @@ public class SettingsFragment extends Fragment {
         TextView fatText = v.findViewById(R.id.fatText);
         TextView proteinText = v.findViewById(R.id.proteinText);
 
-        seekbars = new SeekBar[]{calSeek, carbSeek, fatSeek, proteinSeek};
-        textViews = new TextView[]{calText, carbText, fatText, proteinText};
+        seekbars = new SeekBar[]{calSeek, proteinSeek, fatSeek, carbSeek};
+        textViews = new TextView[]{calText, proteinText, fatText, carbText};
     }
 
     public void setOtherBars(){
@@ -117,10 +117,11 @@ public class SettingsFragment extends Fragment {
             editor.commit();
         }
         if (vals[3] != 100 - vals[2] - vals[1]){
-            int newProtein = 100 - vals[2] - vals[1];
-            seekbars[3].setProgress(newProtein);
-            editor.putInt(PROTEIN, newProtein);
+            int newCarb = 100 - vals[2] - vals[1];
+            seekbars[3].setProgress(newCarb);
+            editor.putInt(CARB, newCarb);
             editor.commit();
         }
     }
+
 }

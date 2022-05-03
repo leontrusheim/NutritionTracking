@@ -183,7 +183,7 @@ public class DailyGraphFragment extends Fragment {
             carbs += m.carbs;
             protein += m.proteins;
         }
-        if (cals == 0 ){return;}
+        if (cals < 1){return;}
             proteinPercent = protein * 400 / cals;
             fatPercent = fat * 900 / cals;
             carbsPercent = carbs * 400 / cals;
@@ -206,15 +206,15 @@ public class DailyGraphFragment extends Fragment {
     }
 
     public int getCarbPercent(){
-        return sharedPrefs.getInt("CARBS", 30);
+        return sharedPrefs.getInt(SettingsFragment.CARB, 30);
     }
 
 
     public int getFatPercent(){
-        return sharedPrefs.getInt("FATS", 20);
+        return sharedPrefs.getInt(SettingsFragment.FAT, 20);
     }
 
     public int getProteinPercent(){
-        return sharedPrefs.getInt("PROTEINS", 50);
+        return sharedPrefs.getInt(SettingsFragment.PROTEIN, 50);
     }
 }

@@ -29,25 +29,42 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class WeeklyGraphFragment extends Fragment {
+
+    public final String FATS = "fat";
+    public final String CALS = "kcal";
+    public final String PROTEINS = "protein";
+    public final String CARBS = "carbs";
+
+    public static Date date = new Date();
+    public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+    public static String currDate = formatter.format(date);
+
+    String nutrientType;
+
+    ArrayList<Float> values;
 
     BarChart barChart;
     BarData barData;
     BarDataSet barDataSet;
     ArrayList barEntriesArrayList;
     int targetValue;
-    private static final String[] DAYS = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
-    int[] dataset;
+    public ArrayList<String> days;
+    ArrayList<Float> dataset;
     String nutrient;
     HashMap<String,int[]> nutrients;
     String color;
     public Activity containerActivity = null;
 
-    public WeeklyGraphFragment() {
-        // Required empty public constructor
+    public WeeklyGraphFragment(String nutrientType, String color, int target) {
+        this.nutrientType = nutrientType;
+        this.color = color;
+        targetValue = target;
     }
 
     public void setContainerActivity(Activity containerActivity) {
@@ -57,6 +74,7 @@ public class WeeklyGraphFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -64,6 +82,7 @@ public class WeeklyGraphFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weekly_graph, container, false);
+        getValues(nutrientType);
 
         /*
         String[] categories = getResources().getStringArray(R.array.categories);
@@ -72,17 +91,23 @@ public class WeeklyGraphFragment extends Fragment {
         sp.setAdapter(arrayAdapter);
          */
 
-        nutrients = (HashMap<String, int[]>) getArguments().getSerializable("nutrients");
-        nutrient = getArguments().getString("nutrient");
-        color = getArguments().getString("color");
-        targetValue = getArguments().getInt("target");
+        //nutrients = (HashMap<String, int[]>) getArguments().getSerializable("nutrients");
 
-        dataset = nutrients.get(nutrient);
+        //nutrient = getArguments().getString("nutrient");
+        //color = getArguments().getString("color");
+        //targetValue = getArguments().getInt("target");
+
+        //dataset = nutrients.get(nutrient);
         barChart = v.findViewById(R.id.idBarChart);
 
         drawGraph();
 
         return v;
+    }
+
+    public void onClickChangeGraph(String nutrient){
+        getValues(nutrient);
+        drawGraph();
     }
 
     private void configureChartAppearance() {
@@ -93,15 +118,15 @@ public class WeeklyGraphFragment extends Fragment {
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return DAYS[(int) value];
+                return days.get((int) value);
             }
         });
     }
 
     public void drawGraph(){
         barEntriesArrayList = new ArrayList<>();
-        for (int i=0; i < DAYS.length; i++){
-            barEntriesArrayList.add(new BarEntry(i, dataset[i]));
+        for (int i=0; i < days.size(); i++){
+            barEntriesArrayList.add(new BarEntry(i, dataset.get(i)));
         }
         barDataSet = new BarDataSet(barEntriesArrayList, nutrient);
         configureChartAppearance();
@@ -113,5 +138,44 @@ public class WeeklyGraphFragment extends Fragment {
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
+    }
+
+    public void getValues(String nutrient){
+        MainActivity.setCurrDate(currDate);
+        MainActivity.changeCurrDate(-7);
+        dataset = new ArrayList<>();
+        days = new ArrayList<>();
+        for (int i = 0; i < 7; i++){
+            MainActivity.changeCurrDate(1);
+            ArrayList<Meal> currMeals = MainActivity.getMealsAtCurr();
+            days.add(MainActivity.getCurrDate().substring(0,5));
+            if (currMeals != null) {
+                Float temp = 0.0f;
+                for (Meal m : currMeals) {
+                    switch (nutrientType) {
+                        case CALS:
+                            temp += m.cals;
+                            break;
+                        case PROTEINS:
+                            temp += m.proteins;
+                            break;
+                        case FATS:
+                            temp += m.fats;
+                            break;
+                        case CARBS:
+                            temp += m.carbs;
+                            break;
+                    }
+                }
+                dataset.add(temp);
+            }
+            else {dataset.add(0.0f);}
+        }
+        System.out.println(dataset);
+        System.out.println(days);
+    }
+
+    public void setTargetValueMarker(){
+
     }
 }
