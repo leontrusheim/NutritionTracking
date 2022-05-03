@@ -455,4 +455,5 @@ public  class MainActivity extends AppCompatActivity {
         date.setDate(newDate);
         currDate = formatter.format(date);
     }
+
 }
