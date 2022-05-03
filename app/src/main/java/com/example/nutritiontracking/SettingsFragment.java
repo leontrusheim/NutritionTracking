@@ -18,16 +18,16 @@ public class SettingsFragment extends Fragment {
     public String CAL = "CALORIES";
     public String FAT = "FATS";
     public String PROTEIN = "PROTEINS";
-    public String CARB = "CARBS";
+    public  String CARB = "CARBS";
     public String[] types = {CAL, CARB, FAT, PROTEIN};
 
     public Activity invokerActivity;
-    public SharedPreferences sharedPrefs;
-    SharedPreferences.Editor editor;
+    public static SharedPreferences sharedPrefs;
+    static SharedPreferences.Editor editor;
 
     public SeekBar[] seekbars;
     public TextView[] textViews;
-    public int[] vals;
+    public static int[] vals;
 
     public SettingsFragment() {
     }
@@ -111,10 +111,16 @@ public class SettingsFragment extends Fragment {
 
     public void setOtherBars(){
         if (vals[2] >= 100 - vals[1]){
-            seekbars[2].setProgress(100 - vals[1]);
+            int newFat = 100 - vals[1];
+            seekbars[2].setProgress(newFat);
+            editor.putInt(FAT, newFat);
+            editor.commit();
         }
         if (vals[3] != 100 - vals[2] - vals[1]){
-            seekbars[3].setProgress(100 - vals[2] - vals[1]);
+            int newProtein = 100 - vals[2] - vals[1];
+            seekbars[3].setProgress(newProtein);
+            editor.putInt(PROTEIN, newProtein);
+            editor.commit();
         }
     }
 }

@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,8 +26,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -142,15 +138,16 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowDailySummary(View v){
-        HashMap nutrientVals = new HashMap<String, int[]>();
-        nutrientVals.put("Protein", 100);
-        nutrientVals.put("Fat", 130);
-        nutrientVals.put("Carbs", 200);
-        DailyGraphFragment dailyGraphFragment = new DailyGraphFragment();
+        //HashMap nutrientVals = new HashMap<String, int[]>();
+        //nutrientVals.put("Protein", 100);
+        //nutrientVals.put("Fat", 130);
+        //nutrientVals.put("Carbs", 200);
+        DailyGraphFragment dailyGraphFragment = new DailyGraphFragment(currDate, getMealsAtCurr());
         dailyGraphFragment.setContainerActivity(this);
-        Bundle args = new Bundle();
-        args.putSerializable("nutrients", nutrientVals);
-        dailyGraphFragment.setArguments(args);
+        //Bundle args = new Bundle();
+        //args.putSerializable("day", meals.get(currDate));
+        //args.putSerializable("nutrients", nutrientVals);
+        //dailyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, dailyGraphFragment);
@@ -238,12 +235,6 @@ public  class MainActivity extends AppCompatActivity {
         saveToFile();
     }
 
-    public void reloadAddMealPage(){
-        Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.mainContent, addMealFrag);
-        fragmentTransaction.commit();
-    }
 
     public void onClickAddMeal(View v){
         createNewMeal();
@@ -349,18 +340,16 @@ public  class MainActivity extends AppCompatActivity {
         currMeal = newMeal;
     }
 
-    public void onClickChangeDate(View v){
-        if (v.getId() == R.id.tomorrow){
-            int newDate = date.getDate() + 1;
-            date.setDate(newDate);
-        }
-        else{
-            int newDate = date.getDate() - 1;
-            date.setDate(newDate);
-        }
-        currDate = formatter.format(date);
-        reloadAddMealPage();
+
+    public static String getCurrDate() {
+        return currDate;
     }
+
+    public static void setCurrDate(String currDate) {
+        MainActivity.currDate = currDate;
+    }
+
+    public void reloadDailyPage(){}
 
     public void saveToFile(){
         editor.putBoolean(FILE_INIT, true);
@@ -440,6 +429,15 @@ public  class MainActivity extends AppCompatActivity {
             String contents = stringBuilder.toString();
             stringToMeals(contents);
         }
+    }
 
+    public static ArrayList<Meal> getMealsAtCurr(){
+        return meals.get(currDate);
+    }
+
+    public static void changeCurrDate(int inc){
+        int newDate = MainActivity.date.getDate() + inc;
+        date.setDate(newDate);
+        currDate = formatter.format(date);
     }
 }
