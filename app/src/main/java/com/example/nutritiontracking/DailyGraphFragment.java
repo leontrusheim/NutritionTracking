@@ -112,9 +112,10 @@ public class DailyGraphFragment extends Fragment {
     }
 
     private void setData() {
-        pieChart.clearChart();
+
         tvDate.setText(date);
         dataset = new int[]{proteinPercent, fatPercent, carbsPercent};
+        pieChart.clearChart();
 
         if (cals == 0){
             invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources().getColor(R.color.light_gray));
@@ -124,22 +125,24 @@ public class DailyGraphFragment extends Fragment {
             tvCarbs.setText("");
             tvFat.setText("");
 
-            /*pieChart.addPieSlice(
+            pieChart.addPieSlice(
                     new PieModel(
                             "null",
                             100,
-                            getResources().getColor(R.color.light_gray)));*/
+                            getResources().getColor(R.color.white)));
         }
         else {
             invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources().getColor(R.color.carbs));
             invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources().getColor(R.color.protein));
             invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources().getColor(R.color.fat));
-            tvProtein.setText(Integer.toString(dataset[0]) + " %");
-            tvFat.setText(Integer.toString(dataset[1]) + " %");
-            tvCarbs.setText(Integer.toString(dataset[2]) + " %");
+
+            System.out.println("PROTEIN: " + proteinPercent);
+            System.out.println("FAT: " + fatPercent);
+            System.out.println("CARBS: " + carbsPercent);
             int diff = 100 - ((int) (proteinPercent) + (int) (fatPercent) + (int) (carbsPercent));
+            System.out.println("DIFF: " + diff);
             for (int i = 0; i < diff; i++) {
-                dataset[i] += 1;
+                dataset[i%3] += 1;
             }
 
             // Set the percentages and date
@@ -161,11 +164,14 @@ public class DailyGraphFragment extends Fragment {
                             "Carbs",
                             dataset[2],
                             getResources().getColor(R.color.carbs)));
-            pieChart.startAnimation();
+
 
             // To animate the pie chart
+            pieChart.startAnimation();
+            tvProtein.setText(Integer.toString(dataset[0]) + " %");
+            tvFat.setText(Integer.toString(dataset[1]) + " %");
+            tvCarbs.setText(Integer.toString(dataset[2]) + " %");
         }
-
     }
 
     public void setDailyNutrients(){
