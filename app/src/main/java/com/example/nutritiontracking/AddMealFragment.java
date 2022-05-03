@@ -10,7 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ public class AddMealFragment extends Fragment {
     GridLayout gl;
     int width;
     String date;
+    View invokerView;
 
     public AddMealFragment(ArrayList<Meal> meals, String date) {
         this.meals = meals;
@@ -35,30 +35,44 @@ public class AddMealFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Put the date selector fragment within the UI of this fragment
-        Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
+        /*Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.topBar, dateFrag);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
-        displayImages(getActivity());
+        displayImagesAndText(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_add_meal, container, false);
-        getWidthInPixels(v);
-        gl = v.findViewById(R.id.meals_grid);
-        return v;
+        invokerView = inflater.inflate(R.layout.fragment_add_meal, container, false);
+        getWidthInPixels(invokerView);
+        gl = invokerView.findViewById(R.id.meals_grid);
+        TextView tv1 = invokerView.findViewById(R.id.forward);
+        TextView tv2 = invokerView.findViewById(R.id.backward);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickChangeDate(view);
+                reloadAddMealPage();
+            }
+        };
+        tv2.setOnClickListener(listener);
+        tv1.setOnClickListener(listener);
+
+        return invokerView;
     }
 
-    public void displayImages(Activity context){
+    public void displayImagesAndText(Activity context){
+        TextView tv = invokerView.findViewById(R.id.date_add_meal);
+        tv.setText(date);
+        gl.removeAllViews();
         if (meals != null){
             for (Meal m : meals) {
                 ImageView iv = new ImageView(context);
@@ -91,5 +105,20 @@ public class AddMealFragment extends Fragment {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
+    }
+
+    public void reloadAddMealPage(){
+        date = MainActivity.getCurrDate();
+        meals = MainActivity.getMealsAtCurr();
+        displayImagesAndText(getActivity());
+    }
+
+    public void onClickChangeDate(View v){
+        if (v.getId() == R.id.forward){
+            MainActivity.changeCurrDate(1);
+        }
+        else{
+            MainActivity.changeCurrDate(-1);
+        }
     }
 }

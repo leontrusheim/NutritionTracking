@@ -1,5 +1,6 @@
 package com.example.nutritiontracking;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 public class DateSelectorFragment extends Fragment {
 
     String date;
+    Context context;
 
 
     public DateSelectorFragment(String date) {
@@ -29,6 +31,7 @@ public class DateSelectorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_date_selector, container, false);
+        getContext();
         TextView dateTv = v.findViewById(R.id.date);
         dateTv.setText(date);
         return v;
