@@ -59,18 +59,6 @@
         android:onClick="OnClickUpdateWeeklySummary"
         android:tag="@color/carbs"/>
 
-    <!--
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/green_med"/>
-         -->
-
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/idBarChart"
         android:layout_width="0dp"

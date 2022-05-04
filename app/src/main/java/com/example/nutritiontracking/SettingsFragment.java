@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
-    public static String CAL = "kcal";
+    public static String CAL = "calories";
     public static String FAT = "fat";
     public static String PROTEIN = "protein";
     public static String CARB = "carbs";
@@ -55,7 +55,7 @@ public class SettingsFragment extends Fragment {
             if (type != CAL) {
                 tv.setText(type + " — " + val + "%");
             }
-            else {tv.setText(type + " — " + val + " cals");}
+            else {tv.setText(type + " — " + val + " kcals");}
             curr.setProgress(val);
             curr.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -88,9 +88,9 @@ public class SettingsFragment extends Fragment {
 
     public void getPrefs(){
         int cals = sharedPrefs.getInt(CAL, 2000);
+        int proteins = sharedPrefs.getInt(PROTEIN, 50);
         int carbs = sharedPrefs.getInt(CARB, 30);
         int fats = sharedPrefs.getInt(FAT, 20);
-        int proteins = sharedPrefs.getInt(PROTEIN, 50);
         vals = new int[]{cals, proteins, fats, carbs};
     }
 

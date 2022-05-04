@@ -129,7 +129,7 @@ public class WeeklyGraphFragment extends Fragment {
         for (int i=0; i < days.size(); i++){
             barEntriesArrayList.add(new BarEntry(i, dataset.get(i)));
         }
-        barDataSet = new BarDataSet(barEntriesArrayList, nutrient);
+        barDataSet = new BarDataSet(barEntriesArrayList, nutrientType);
         configureChartAppearance();
         barData = new BarData(barDataSet);
         barChart.setData(barData);
@@ -175,9 +175,5 @@ public class WeeklyGraphFragment extends Fragment {
         }
         System.out.println(dataset);
         System.out.println(days);
-    }
-
-    public void setTargetValueMarker(){
-
     }
 }

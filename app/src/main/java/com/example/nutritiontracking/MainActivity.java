@@ -235,7 +235,7 @@ public  class MainActivity extends AppCompatActivity {
         int targetCals = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
 
         int target = sharedPrefs.getInt(nutrient, 50);
-        System.out.println("Target" +target);
+        System.out.println("Target" + target);
         if (nutrient.equals(SettingsFragment.CARB) || nutrient.equals(SettingsFragment.PROTEIN)){
             target = (int) (targetCals * target) / (400);
         }
