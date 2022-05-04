@@ -8,7 +8,7 @@
 
     <TextView
         style="@style/Heading1"
-        android:text="TODO Meals"
+        android:text="My Meals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -31,7 +31,7 @@
             android:padding="20dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TODO 14, 2022"/>
+            android:text=""/>
         <TextView
             android:id="@+id/forward"
             style="@style/Body1"
@@ -49,15 +49,22 @@
 
     <Button
         android:id="@+id/add_photo_button"
-        style="@style/Body1"
+        style="@style/BigButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="24dp"
         android:text="Add Meal"
+        android:padding="10dp"
+        android:textColor="@color/white"
         android:onClick="onClickAddMeal"/>
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:id="@+id/meals_grid"/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:id="@+id/meals_grid"/>
+    </ScrollView>
 </LinearLayout>

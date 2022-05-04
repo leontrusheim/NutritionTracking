@@ -15,24 +15,27 @@
     <Button
         android:id="@+id/captureButton"
         style="@style/BigButton"
-        android:layout_weight="0.3"
+        android:layout_weight="0.4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/green_dark"
         android:text="@string/take_photo"/>
 
     <Button
         android:id="@+id/photosButton"
-        android:layout_weight="0.3"
+        android:layout_weight="0.4"
         style="@style/BigButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/green_med"
         android:text="@string/pick_photo"/>
 
-    <Button
-        android:layout_weight="0.3"
-        style="@style/BigButton"
+    <TextView
+        android:layout_weight="0.1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/light_gray"
+        style="@style/Body1"
         android:text="@string/no_photo"
         android:onClick="onClickMealSummary"/>
 </LinearLayout>

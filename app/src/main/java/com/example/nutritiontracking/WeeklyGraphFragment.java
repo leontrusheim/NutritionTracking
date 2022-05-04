@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,10 +38,10 @@ import java.util.HashMap;
 
 public class WeeklyGraphFragment extends Fragment {
 
-    public final String FATS = "fat";
-    public final String CALS = "kcal";
-    public final String PROTEINS = "protein";
-    public final String CARBS = "carbs";
+    public final String FATS = SettingsFragment.FAT;
+    public final String CALS = SettingsFragment.CAL;
+    public final String PROTEINS = SettingsFragment.PROTEIN;
+    public final String CARBS = SettingsFragment.CARB;
 
     public static Date date = new Date();
     public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -53,6 +54,7 @@ public class WeeklyGraphFragment extends Fragment {
     BarChart barChart;
     BarData barData;
     BarDataSet barDataSet;
+    TextView targetTV;
     ArrayList barEntriesArrayList;
     int targetValue;
     public ArrayList<String> days;
@@ -99,6 +101,7 @@ public class WeeklyGraphFragment extends Fragment {
         //targetValue = getArguments().getInt("target");
 
         //dataset = nutrients.get(nutrient);
+        targetTV = v.findViewById(R.id.target_value);
         barChart = v.findViewById(R.id.idBarChart);
 
         drawGraph();
@@ -140,6 +143,11 @@ public class WeeklyGraphFragment extends Fragment {
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
         barChart.animateY(1000);
+        if (nutrientType.equals(SettingsFragment.CAL)){
+            targetTV.setText("Target Value =  " + targetValue + " kcals");
+        }
+        else{targetTV.setText("Target Value =  " + targetValue + " g");}
+
     }
 
     public void getValues(String nutrient){

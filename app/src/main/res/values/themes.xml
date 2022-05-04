@@ -44,11 +44,26 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+
     <style name="Body2">
         <item name="android:textSize">16dp</item>
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="SubtitleHelp">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/medium_grey</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="BodyHelp">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/medium_grey</item>
+        <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <style name="Heading2">
@@ -57,5 +72,14 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="HelpImage">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">250dp</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:background">@color/carbs</item>
+        <item name="android:layout_marginBottom">16dp</item>
     </style>
 </resources>
