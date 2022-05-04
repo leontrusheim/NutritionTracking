@@ -26,10 +26,12 @@
     </style>
 
     <style name="BigButton">
+        <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">36sp</item>
     </style>
 
     <style name="Heading1">
+        <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/grey</item>
@@ -38,6 +40,7 @@
     </style>
 
     <style name="Body1">
+        <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">24sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/grey</item>
@@ -47,6 +50,7 @@
 
 
     <style name="Body2">
+        <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/grey</item>
@@ -54,6 +58,7 @@
     </style>
 
     <style name="SubtitleHelp">
+        <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/medium_grey</item>
         <item name="android:textStyle">bold</item>
@@ -61,12 +66,14 @@
     </style>
 
     <style name="BodyHelp">
+        <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/medium_grey</item>
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <style name="Heading2">
+        <item name="android:fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">24sp</item>
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/grey</item>

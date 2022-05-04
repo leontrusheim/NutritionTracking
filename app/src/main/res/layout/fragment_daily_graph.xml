@@ -90,6 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Protein"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingLeft="10dp"/>
 
                 </LinearLayout>
@@ -110,6 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fat"
+                        android:fontFamily="@font/poppins_regular"
                         android:paddingLeft="10dp"/>
 
                 </LinearLayout>
@@ -123,6 +125,7 @@
                     <View
                         android:id="@+id/carb_color"
                         android:layout_width="15dp"
+                        android:fontFamily="@font/poppins_regular"
                         android:layout_height="match_parent"
                         android:background="@color/carbs"/>
 
@@ -159,6 +162,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:fontFamily="@font/poppins_medium"
                 android:id="@+id/graph_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,20 +192,20 @@
                     android:id="@+id/summary_proteins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="Protein"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvProtein"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="0"
                     android:textAlignment="textEnd"
                     android:textColor="@color/protein"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -224,20 +228,20 @@
                     android:id="@+id/summary_fats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="Fat"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvFat"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="0"
                     android:textAlignment="textEnd"
                     android:textColor="@color/fat"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -261,20 +265,20 @@
                     android:id="@+id/summary_carbs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="Carbs"
-                    android:textSize="18sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvCarbs"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="@font/poppins_regular"
                     android:text="0"
                     android:textAlignment="textEnd"
                     android:textColor="@color/carbs"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>
