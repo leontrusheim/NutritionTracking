@@ -87,20 +87,6 @@ public class WeeklyGraphFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_weekly_graph, container, false);
         getValues(nutrientType);
 
-        /*
-        String[] categories = getResources().getStringArray(R.array.categories);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), R.layout.dropdown_menu_item, categories);
-        Spinner sp = v.findViewById(R.id.spinner);
-        sp.setAdapter(arrayAdapter);
-         */
-
-        //nutrients = (HashMap<String, int[]>) getArguments().getSerializable("nutrients");
-
-        //nutrient = getArguments().getString("nutrient");
-        //color = getArguments().getString("color");
-        //targetValue = getArguments().getInt("target");
-
-        //dataset = nutrients.get(nutrient);
         targetTV = v.findViewById(R.id.target_value);
         barChart = v.findViewById(R.id.idBarChart);
 

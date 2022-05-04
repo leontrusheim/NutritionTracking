@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +31,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 public  class MainActivity extends AppCompatActivity {
+
+    public static int currTab = 0;
 
     public static String searchTerm;
 
@@ -70,19 +69,13 @@ public  class MainActivity extends AppCompatActivity {
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                        R.anim.slide_in,
-                        R.anim.fade_out);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.menuBar, menuFrag);
         fragmentTransaction.commit();
 
         //add main menu fragment to top of screen
         Fragment homeFrag = new HomeMenuFragment();
-        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                        R.anim.slide_in,
-                        R.anim.fade_out);
+        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
         fragmentTransaction2.add(R.id.mainContent, homeFrag);
         fragmentTransaction2.commit();
     }
@@ -90,11 +83,11 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display settings and replaces the UI to display it.
      */
-    public void onClickViewSettings(View v){
+    public void onClickViewSettings(View v, int animId){
         Fragment settingFrag = new SettingsFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        animId,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, settingFrag);
         fragmentTransaction.commit();
@@ -104,10 +97,11 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display settings and replaces the UI to display it.
      */
     public void onClickGetHelp(View v){
+        currTab = -1;
         Fragment helpFrag = new HelpFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_up,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, helpFrag);
         fragmentTransaction.commit();
@@ -116,12 +110,12 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display Progress menu and replaces the UI to display it.
      */
-    public void onClickViewProgress(View v){
+    public void onClickViewProgress(View v, int animId){
         ProgressSelectorFragment progressFrag = new ProgressSelectorFragment();
         progressFrag.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, progressFrag);
@@ -131,11 +125,11 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment for the main menu and replaces the UI to display it.
      */
-    public void onClickViewHome(View v){
+    public void onClickViewHome(View v, int animId){
         Fragment homeFrag = new HomeMenuFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_left,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, homeFrag);
         fragmentTransaction.commit();
@@ -144,11 +138,11 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display Adding meal photos and replaces the UI to display it.
      */
-    public void onClickViewMeals(View v){
+    public void onClickViewMeals(View v, int animId){
         Fragment mealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        animId,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
         fragmentTransaction.commit();
@@ -161,7 +155,7 @@ public  class MainActivity extends AppCompatActivity {
         Fragment mealSummaryFragment = new MealSummaryFragment(currMeal);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
         fragmentTransaction.commit();
@@ -178,7 +172,7 @@ public  class MainActivity extends AppCompatActivity {
         searchFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, searchFragment);
@@ -186,11 +180,12 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowDailySummary(View v){
+        currTab = -1;
         DailyGraphFragment dailyGraphFragment = new DailyGraphFragment(currDate, getMealsAtCurr());
         dailyGraphFragment.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, dailyGraphFragment);
@@ -198,12 +193,13 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowWeeklySummary(View v){
+        currTab = -1;
         int target = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
         WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("cals", "#8FDD34", target);
         weeklyGraphFragment.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
@@ -264,7 +260,7 @@ public  class MainActivity extends AppCompatActivity {
         Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                R.anim.slide_in,
+                R.anim.slide_right,
                 R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, addMealFrag);
         fragmentTransaction.commit();
@@ -273,12 +269,13 @@ public  class MainActivity extends AppCompatActivity {
 
 
     public void onClickAddMeal(View v){
+        currTab = -1;
         createNewMeal();
 
         Fragment photoFrag = new AddPhotoFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, photoFrag);
         fragmentTransaction.commit();
@@ -366,7 +363,7 @@ public  class MainActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, nutrientFragment);
@@ -481,6 +478,33 @@ public  class MainActivity extends AppCompatActivity {
         int newDate = MainActivity.date.getDate() + inc;
         date.setDate(newDate);
         currDate = formatter.format(date);
+    }
+
+    public void onClickChangeTabAnim(View v){
+        int goHere = Integer.parseInt((String) v.getTag());
+        int animId = 0;
+        if (goHere > currTab){
+            animId = R.anim.slide_right;
+        }
+        else if (goHere < currTab){
+            animId = R.anim.slide_left;
+        }
+        else{return;}
+        currTab = goHere;
+        switch (goHere){
+            case 0:
+                onClickViewHome(v, animId);
+                break;
+            case 1:
+                onClickViewSettings(v, animId);
+                break;
+            case 2:
+                onClickViewMeals(v, animId);
+                break;
+            case 3:
+                onClickViewProgress(v, animId);
+                break;
+        }
     }
 
 }
