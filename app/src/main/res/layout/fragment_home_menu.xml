@@ -6,11 +6,12 @@
     tools:context=".HomeMenuFragment"
     android:orientation="vertical">
 
-    <TextView
-        style="@style/Heading1"
+    <ImageView
+        android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"/>
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo"/>
     <Button
         android:tag="1"
         android:id="@+id/goals_button"

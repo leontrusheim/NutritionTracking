@@ -20,12 +20,14 @@
             android:layout_weight="0.27"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/green_light"
+            android:fontFamily="@font/poppins_medium"
             android:text="cals"
             android:onClick="OnClickUpdateWeeklySummary"
             android:tag="@color/green_light"/>
 
         <Button
             android:id="@+id/proteinButton"
+            android:fontFamily="@font/poppins_medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="4dp"
+            android:fontFamily="@font/poppins_medium"
             android:layout_weight="0.27"
             android:backgroundTint="@color/fat"
             android:text="fat"
@@ -54,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginStart="4dp"
+            android:fontFamily="@font/poppins_medium"
             android:layout_weight="0.25"
             android:backgroundTint="@color/carbs"
             android:text="carbs"
