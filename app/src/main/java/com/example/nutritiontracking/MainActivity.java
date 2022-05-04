@@ -101,6 +101,19 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Creates a fragment to display settings and replaces the UI to display it.
+     */
+    public void onClickGetHelp(View v){
+        Fragment helpFrag = new HelpFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
+        fragmentTransaction.replace(R.id.mainContent, helpFrag);
+        fragmentTransaction.commit();
+    }
+
+    /**
      * Creates a fragment to display Progress menu and replaces the UI to display it.
      */
     public void onClickViewProgress(View v){
@@ -173,16 +186,8 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowDailySummary(View v){
-        //HashMap nutrientVals = new HashMap<String, int[]>();
-        //nutrientVals.put("Protein", 100);
-        //nutrientVals.put("Fat", 130);
-        //nutrientVals.put("Carbs", 200);
         DailyGraphFragment dailyGraphFragment = new DailyGraphFragment(currDate, getMealsAtCurr());
         dailyGraphFragment.setContainerActivity(this);
-        //Bundle args = new Bundle();
-        //args.putSerializable("day", meals.get(currDate));
-        //args.putSerializable("nutrients", nutrientVals);
-        //dailyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
                         R.anim.slide_in,
@@ -193,23 +198,9 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickShowWeeklySummary(View v){
-        //HashMap nutrientVals = new HashMap<String, int[]>();
-        //int [] values = new int[]{100,150,200,50,75,300,125};
-        //nutrientVals.put("Kcal", values);
-        //nutrientVals.put("Protein", values);
-        //nutrientVals.put("Fat", values);
-        //nutrientVals.put("Carbs", values);
-        //int target = 300;
         int target = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
-        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("kcal", "#8FDD34", target);
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("cals", "#8FDD34", target);
         weeklyGraphFragment.setContainerActivity(this);
-        //Bundle args = new Bundle();
-        //args.putString("nutrient","Kcal");
-        //String color = "#8FDD34";
-        //args.putString("color", color);
-        //args.putSerializable("nutrients", nutrientVals);
-        //args.putInt("target", target);
-        //weeklyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
                         R.anim.slide_in,
@@ -220,13 +211,6 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     public void OnClickUpdateWeeklySummary(View v){
-        //HashMap nutrientVals = new HashMap<String, int[]>();
-        //int [] values = new int[]{100,150,200,50,75,300,125};
-        //int target = 300;
-        //nutrientVals.put("Kcal", values);
-        //nutrientVals.put("Protein", values);
-        //nutrientVals.put("Fat", values);
-        //nutrientVals.put("Carbs", values);
         Button b = (Button) v;
         String nutrient = (String) b.getText();
         System.out.println(nutrient);
@@ -245,15 +229,6 @@ public  class MainActivity extends AppCompatActivity {
 
         WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment(nutrient, color, target);
         weeklyGraphFragment.setContainerActivity(this);
-        //Bundle args = new Bundle();
-        //Button b = (Button) v;
-
-        //String nutrient = (String) b.getText();
-        //args.putString("nutrient",nutrient);
-        //args.putString("color", color);
-        //args.putSerializable("nutrients", nutrientVals);
-        //args.putInt("target", target);
-        //weeklyGraphFragment.setArguments(args);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);

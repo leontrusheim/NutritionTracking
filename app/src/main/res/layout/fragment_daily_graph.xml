@@ -142,16 +142,16 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:layout_below="@+id/cardViewGraph"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:elevation="10dp"
-        app:cardCornerRadius="10dp"
-        android:id="@+id/details">
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,26 +162,26 @@
                 android:id="@+id/graph_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
                 android:text="Macros (In Percentage):"
                 android:textSize="23sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_two"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"/>
+                android:background="@color/color_two" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp">
 
                 <TextView
@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Protein"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tvProtein"
@@ -208,16 +208,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_two"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:background="@color/color_two" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp">
 
                 <TextView
@@ -226,34 +226,35 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Fat"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvFat"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:id="@+id/tvFat"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp"
-                    android:textColor="@color/fat"
-                    android:textStyle="bold"
+                    android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-light"
-                    android:layout_alignParentRight="true"/>
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/fat"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/color_two"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:background="@color/color_two" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginBottom="10dp">
 
                 <TextView
@@ -262,19 +263,19 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="Carbs"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/tvCarbs"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:id="@+id/tvCarbs"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp"
-                    android:textColor="@color/carbs"
-                    android:textStyle="bold"
+                    android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-light"
-                    android:layout_alignParentRight="true"/>
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/carbs"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 

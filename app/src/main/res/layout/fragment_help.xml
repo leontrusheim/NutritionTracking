@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelpFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingRight="2dp">
+
+        <TextView
+            style="@style/Heading1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Help Page" />
+
+        <TextView
+            style="@style/SubtitleHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_1" />
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_2" />
+
+        <ImageView
+            style="@style/HelpImage"
+            android:src="@drawable/goal_set_demo" />
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_3" />
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_4" />
+
+        <ImageView
+            style="@style/HelpImage"
+            android:src="@drawable/add_meal_demo" />
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_5"/>
+
+        <ImageView
+            style="@style/HelpImage"
+            android:src="@drawable/meal_summary_demo"/>
+
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_6"/>
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_7"/>
+
+        <ImageView
+            style="@style/HelpImage"
+            android:src="@drawable/graph_demo"/>
+
+
+        <TextView
+            style="@style/BodyHelp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/help_page_8"/>
+
+    </LinearLayout>
+
+
+
+</ScrollView>

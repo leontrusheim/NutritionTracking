@@ -15,14 +15,38 @@
     <string name="backward">⬅️</string>
     <string name="take_photo">Capture 📸</string>
     <string name="pick_photo">Pick Photo 🖼</string>
-    <string name="no_photo">No Photo 🚫</string>
+    <string name="no_photo">No Photo?</string>
     <string name="add_ingredient">Add ingredient</string>
     <string name="add_to_meal">Add To Meal</string>
-    <string-array name="categories">
-        <item>Protein</item>
-        <item>Fat</item>
-        <item>Calories</item>
-        <item>Carbs</item>
-    </string-array>
+    <string name="help_button">Need Help?</string>
     <string name="save_meal">Save Meal</string>
+    <string name="help_page_1">
+        NutritionTracking is an app to (1) set goals for your nutritional progress, (2) store meals,
+        and (3) view whether or not you are meeting those goals.</string>
+    <string name="help_page_2">
+        (1) In order to SET A GOAL, navigate to the MY GOALS tab, indicated by the 🎯 symbol.
+        </string>
+    <string name="help_page_3">
+        Once here, you may set your goals by dragging the sliders to set
+        the values for daily caloric intake, and the % of each ma️cros that
+        should come from you daily intake.</string>
+    <string name="help_page_4">
+        (2) To ADD A MEAL, navigate to the MY MEALS tab, indicated by the 🥗 symbol.</string>
+    <string name="help_page_5">
+        You can click the ⬅️ and ➡️ arrows to change the date,
+        click on an image to view the meal or edit it, or click the
+        Add Meal Button to add a new meal. It will prompt you to add
+        a picture in one of three ways. Once the photo has been added
+        it’s time to build your meal.
+        </string>
+    <string name="help_page_6">This page allows us to customize and add ingredients to the meal. Click the ADD INGREDIENT button
+        in order to search for an ingredient to the meal. Then enter the text of the ingredient you are looking for, click
+        on a food option, and click ADD TO MEAL to add it. When you are satisfied with your meal, you may click save.
+    </string>
+    <string name="help_page_7">(3) Finally, you may view whether or not you are meeting your goals by navigating
+        to the PROGRESS tab, by clicking the 📊 icon.
+    </string>
+    <string name="help_page_8">Here you can navigate through graphs displaying the daily or weekly summary
+        for nutrient intake.
+    </string>
 </resources>

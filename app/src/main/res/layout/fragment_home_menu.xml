@@ -12,13 +12,22 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"/>
     <Button
+        android:id="@+id/goals_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="@string/my_goals"
+        android:backgroundTint="@color/green_dark"
+        style="@style/BigButton"
+        android:onClick="onClickViewSettings"/>
+    <Button
         android:id="@+id/meals_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
         android:text="@string/my_meals"
         style="@style/BigButton"
-        android:backgroundTint="@color/green_dark"
+        android:backgroundTint="@color/green_med"
         android:onClick="onClickViewMeals"/>
 
     <Button
@@ -27,18 +36,18 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
         android:text="@string/my_progress"
-        android:backgroundTint="@color/green_med"
+        android:backgroundTint="@color/green_light"
         style="@style/BigButton"
         android:onClick="onClickViewProgress"/>
 
-    <Button
-        android:id="@+id/goals_button"
+    <TextView
+        android:id="@+id/helpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:text="@string/my_goals"
-        android:backgroundTint="@color/green_light"
-        style="@style/BigButton"
-        android:onClick="onClickViewSettings"/>
+        android:layout_weight="0.1"
+        android:text="@string/help_button"
+        android:textColor="@color/light_gray"
+        style="@style/Body1"
+        android:onClick="onClickGetHelp"/>
 
 </LinearLayout>

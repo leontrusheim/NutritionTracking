@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 public class SettingsFragment extends Fragment {
 
-    public static String CAL = "calories";
-    public static String FAT = "fat";
-    public static String PROTEIN = "protein";
-    public static String CARB = "carbs";
+    public static final String CAL = "cals";
+    public static final String FAT = "fat";
+    public static final String PROTEIN = "protein";
+    public static final String CARB = "carbs";
     public String[] types = {CAL, PROTEIN, FAT, CARB};
 
     public Activity invokerActivity;
