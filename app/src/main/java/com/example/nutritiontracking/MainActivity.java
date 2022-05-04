@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,13 +70,19 @@ public  class MainActivity extends AppCompatActivity {
 
         // add menu bar at bottom of screen
         Fragment menuFrag = new MenuSelectorFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.add(R.id.menuBar, menuFrag);
         fragmentTransaction.commit();
 
         //add main menu fragment to top of screen
         Fragment homeFrag = new HomeMenuFragment();
-        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction2.add(R.id.mainContent, homeFrag);
         fragmentTransaction2.commit();
     }
@@ -83,7 +92,10 @@ public  class MainActivity extends AppCompatActivity {
      */
     public void onClickViewSettings(View v){
         Fragment settingFrag = new SettingsFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, settingFrag);
         fragmentTransaction.commit();
     }
@@ -94,7 +106,10 @@ public  class MainActivity extends AppCompatActivity {
     public void onClickViewProgress(View v){
         ProgressSelectorFragment progressFrag = new ProgressSelectorFragment();
         progressFrag.setContainerActivity(this);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, progressFrag);
         fragmentTransaction.commit();
@@ -105,7 +120,10 @@ public  class MainActivity extends AppCompatActivity {
      */
     public void onClickViewHome(View v){
         Fragment homeFrag = new HomeMenuFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, homeFrag);
         fragmentTransaction.commit();
     }
@@ -115,7 +133,10 @@ public  class MainActivity extends AppCompatActivity {
      */
     public void onClickViewMeals(View v){
         Fragment mealFrag = new AddMealFragment(meals.get(currDate), currDate);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
         fragmentTransaction.commit();
     }
@@ -125,7 +146,10 @@ public  class MainActivity extends AppCompatActivity {
      */
     public void onClickMealSummary(View v){
         Fragment mealSummaryFragment = new MealSummaryFragment(currMeal);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
         fragmentTransaction.commit();
     }
@@ -133,7 +157,19 @@ public  class MainActivity extends AppCompatActivity {
      * Creates a fragment to display search results for a food item and replaces the UI to display it.
      */
     public void OnClickSearchFoodItems(View v){
-        setFoodSearchFragment();
+        FoodSearchFragment searchFragment = new FoodSearchFragment();
+        searchFragment.setContainerActivity(this);
+        Bundle args = new Bundle();
+        args.putSerializable("ingredients", ingredients);
+        args.putString("searchTerm", searchTerm);
+        searchFragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.mainContent, searchFragment);
+        fragmentTransaction.commit();
     }
 
     public void OnClickShowDailySummary(View v){
@@ -147,7 +183,10 @@ public  class MainActivity extends AppCompatActivity {
         //args.putSerializable("day", meals.get(currDate));
         //args.putSerializable("nutrients", nutrientVals);
         //dailyGraphFragment.setArguments(args);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, dailyGraphFragment);
         fragmentTransaction.commit();
@@ -171,7 +210,10 @@ public  class MainActivity extends AppCompatActivity {
         //args.putSerializable("nutrients", nutrientVals);
         //args.putInt("target", target);
         //weeklyGraphFragment.setArguments(args);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, weeklyGraphFragment);
         fragmentTransaction.commit();
@@ -193,11 +235,12 @@ public  class MainActivity extends AppCompatActivity {
         int targetCals = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
 
         int target = sharedPrefs.getInt(nutrient, 50);
+        System.out.println("Target" +target);
         if (nutrient.equals(SettingsFragment.CARB) || nutrient.equals(SettingsFragment.PROTEIN)){
-            target = (int) (targetCals * target) / (400 * 100);
+            target = (int) (targetCals * target) / (400);
         }
         else if (nutrient.equals(SettingsFragment.FAT)){
-            target = (int) (targetCals * target) / (900 * 100);
+            target = (int) (targetCals * target) / (900);
         }
 
         WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment(nutrient, color, target);
@@ -244,7 +287,10 @@ public  class MainActivity extends AppCompatActivity {
         }
         System.out.println(currMeal.toString());
         Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, addMealFrag);
         fragmentTransaction.commit();
         saveToFile();
@@ -255,7 +301,10 @@ public  class MainActivity extends AppCompatActivity {
         createNewMeal();
 
         Fragment photoFrag = new AddPhotoFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, photoFrag);
         fragmentTransaction.commit();
     }
@@ -340,7 +389,10 @@ public  class MainActivity extends AppCompatActivity {
         args.putSerializable("ingredients", new Ingredient[]{ingredients.get(tag)});
         nutrientFragment.setArguments(args);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, nutrientFragment);
         fragmentTransaction.commit();

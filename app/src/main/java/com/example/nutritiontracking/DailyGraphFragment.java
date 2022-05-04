@@ -136,9 +136,10 @@ public class DailyGraphFragment extends Fragment {
             invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources().getColor(R.color.protein));
             invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources().getColor(R.color.fat));
 
-            System.out.println("PROTEIN: " + proteinPercent);
-            System.out.println("FAT: " + fatPercent);
-            System.out.println("CARBS: " + carbsPercent);
+            System.out.println("CALORIES: " + cals);
+            System.out.println("PROTEIN: " + protein);
+            System.out.println("FAT: " + fat);
+            System.out.println("CARBS: " + carbs);
             int diff = 100 - ((int) (proteinPercent) + (int) (fatPercent) + (int) (carbsPercent));
             System.out.println("DIFF: " + diff);
             for (int i = 0; i < diff; i++) {
