@@ -139,6 +139,7 @@ public class WeeklyGraphFragment extends Fragment {
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
+        barChart.animateY(1000);
     }
 
     public void getValues(String nutrient){
