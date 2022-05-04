@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotosFragment">
+    tools:context=".PhotosFragment"
+    android:orientation="vertical">
 
-    <GridLayout
-        android:id="@+id/grid_images"
+    <TextView
+        style="@style/Heading1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3">
-    </GridLayout>
+        android:text="Pick A Photo"/>
 
-</ScrollView>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <GridLayout
+            android:id="@+id/grid_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3">
+        </GridLayout>
+    </ScrollView>
+
+</LinearLayout>
