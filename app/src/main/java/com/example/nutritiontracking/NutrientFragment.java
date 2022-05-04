@@ -53,7 +53,10 @@ public class NutrientFragment extends Fragment {
             public void onClick(View view) {
                 meal.addIngredient(curr);
                 Fragment mealFrag = new MealSummaryFragment(meal);
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getParentFragmentManager().
+                        beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out);
                 fragmentTransaction.replace(R.id.mainContent, mealFrag);
                 fragmentTransaction.commit();
             }

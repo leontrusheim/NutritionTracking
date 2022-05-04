@@ -4,6 +4,8 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+import java.text.DecimalFormat;
+
 public class Ingredient implements Serializable {
     String name;
     String brand;
@@ -16,10 +18,11 @@ public class Ingredient implements Serializable {
 
         name = jsonObject.optString("item_name");
         brand = jsonObject.optString("brand_name");
-        cals = parseFloat(jsonObject.optString("nf_calories"));
         carbs = parseFloat(jsonObject.optString("nf_total_carbohydrate"));
         fats =  parseFloat(jsonObject.optString("nf_total_fat"));
         proteins =  parseFloat(jsonObject.optString("nf_protein"));
+        DecimalFormat df_obj = new DecimalFormat("#.##");
+        cals = Float.parseFloat(df_obj.format(carbs * 4 + fats * 9 + proteins *4));
     }
 
     @Override
