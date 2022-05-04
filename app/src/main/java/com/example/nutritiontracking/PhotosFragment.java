@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PhotosFragment extends Fragment {
@@ -59,7 +60,7 @@ public class PhotosFragment extends Fragment {
         fetchAndDisplayGalleryImages(getActivity());
     }
 
-    public ArrayList<String> fetchAndDisplayGalleryImages(Activity context) {
+    public void fetchAndDisplayGalleryImages(Activity context) {
         getWidthInPixels(inflatedView);
         ArrayList<String> galleryImageUrls;
 
@@ -73,33 +74,34 @@ public class PhotosFragment extends Fragment {
                 new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID},
                 null, null, orderBy + " DESC");
 
-        galleryImageUrls = new ArrayList<String>();
 
         for (int i = 0; i < query.getCount(); i++) {
             query.moveToPosition(i);
             int dataColumnIndex = query.getColumnIndex(MediaStore.Images.Media.DATA);
             String imageString = query.getString(dataColumnIndex);
-            galleryImageUrls.add(imageString);
-            Uri photoUri = Uri.parse(imageString);
-            System.out.println(photoUri.toString());
+
+            Bitmap bitmap = BitmapFactory.decodeFile(imageString);
+
             ImageView iv = new ImageView(context);
-            System.out.println(imageString);
-            iv.setImageURI(photoUri);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
             iv.setLayoutParams(lp);
-            //iv.setPadding();
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            iv.setImageBitmap(bitmap);
+
+            Bitmap bitmapCopy = bitmap;
             iv.setOnClickListener(new View.OnClickListener() {
+
+                final Bitmap finalBitmap = bitmapCopy;
+
                 @Override
                 public void onClick(View view) {
-                    MainActivity.currMeal.setPhotoURI(photoUri);
-                    onClickOpenMealSummary(photoUri);
+                    onClickOpenMealSummary(finalBitmap);
                 }
             });
             ll.addView(iv);
         }
         query.close();
-        return galleryImageUrls;
     }
 
 
@@ -110,8 +112,8 @@ public class PhotosFragment extends Fragment {
         width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
     }
 
-    public void onClickOpenMealSummary(Uri uri){
-        MainActivity.currMeal.setPhotoURI(uri);
+    public void onClickOpenMealSummary(Bitmap bitmap){
+        MainActivity.currMeal.setBitmap(bitmap);
         Fragment mealSummaryFrag = new MealSummaryFragment(MainActivity.currMeal);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.addToBackStack(null);
