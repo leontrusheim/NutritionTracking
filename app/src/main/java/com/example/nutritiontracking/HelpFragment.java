@@ -1,3 +1,12 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: HelpFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a the HelpFragment, which is a fragment to display
+ *          text and image views related to how the app functions.
+ */
+
 package com.example.nutritiontracking;
 
 import android.os.Bundle;

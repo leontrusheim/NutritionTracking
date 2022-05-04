@@ -1,15 +1,23 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: ProgressSelectorFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a ProgressSelectorFragment, a fragment that displays
+ *      two buttons and allows the user to select which summary of their progress they would
+ *      like to view (daily or weekly summary).
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 public class ProgressSelectorFragment extends Fragment {
@@ -31,7 +39,6 @@ public class ProgressSelectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_progress_selector, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_progress_selector, container, false);
     }
 }

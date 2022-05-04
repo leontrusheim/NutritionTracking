@@ -1,14 +1,22 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: AddMealFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a fragment that allows the user to view
+ *      meals for specified days. The fragment loads in Meal objects for the specified day,
+ *      builds ImageViews for each meal, and sets onClick methods for how the user can interact
+ *      with these images and the buttons on the screen.
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,12 +61,9 @@ public class AddMealFragment extends Fragment {
         gl = invokerView.findViewById(R.id.meals_grid);
         TextView tv1 = invokerView.findViewById(R.id.forward);
         TextView tv2 = invokerView.findViewById(R.id.backward);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickChangeDate(view);
-                reloadAddMealPage();
-            }
+        View.OnClickListener listener = view -> {
+            onClickChangeDate(view);
+            reloadAddMealPage();
         };
         tv2.setOnClickListener(listener);
         tv1.setOnClickListener(listener);
@@ -89,15 +94,12 @@ public class AddMealFragment extends Fragment {
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
                 iv.setLayoutParams(lp);
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        MainActivity.setCurrMeal(m);
-                        Fragment mealSummaryFrag = new MealSummaryFragment(m);
-                        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
-                        fragmentTransaction.commit();
-                    }
+                iv.setOnClickListener(view -> {
+                    MainActivity.setCurrMeal(m);
+                    Fragment mealSummaryFrag = new MealSummaryFragment(m);
+                    FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
+                    fragmentTransaction.commit();
                 });
                 gl.addView(iv);
             }
@@ -106,9 +108,9 @@ public class AddMealFragment extends Fragment {
 
 
     /**
-     * Returns width of the screen / 3. This defines how large the images are displayed so
+     * Set the width variable to be equal to the width of the screen / 3.
+     * This defines how large the images are displayed so
      * that a column of 3 images will fill the width.
-     * @param v
      */
     protected void getWidthInPixels(View v) {
         int offset = v.getWidth();

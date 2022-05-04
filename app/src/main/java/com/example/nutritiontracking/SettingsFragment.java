@@ -1,7 +1,16 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: SettingsFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a Settings Fragment, a fragment that allows
+ *          the user to set their goals and preferences for the app. The user can
+ *          drag sliders to set their goal caloric intake and nutrient percentage breakdown.
+ *          These get saved automatically to the shared preferences when the app is closed.
+ */
+
 package com.example.nutritiontracking;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,7 +49,7 @@ public class SettingsFragment extends Fragment {
         invokerActivity = getActivity();
         sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
-        getPrefs();
+        initializePrefVals();
     }
 
     @Override
@@ -54,19 +63,19 @@ public class SettingsFragment extends Fragment {
             String type = types[i];
             TextView tv = textViews[i];
             int val = vals[i];
-            if (type != CAL) {
-                tv.setText(type + " — " + val + "%");
+            if (type.equals(CAL)){
+                tv.setText(type + " — " + val + " kcals");
             }
-            else {tv.setText(type + " — " + val + " kcals");}
+            else {tv.setText(type + " — " + val + " %");}
             curr.setProgress(val);
             curr.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                     int val = curr.getProgress();
-                    if (type != CAL) {
-                        tv.setText(type + " — " + val + "%");
+                    if (type.equals(CAL)) {
+                        tv.setText(type + " — " + val + " kcals");
                     }
-                    else {tv.setText(type + " — " + val + " cals");}
+                    else {tv.setText(type + " — " + val + " %");}
                 }
 
                 @Override
@@ -79,7 +88,7 @@ public class SettingsFragment extends Fragment {
                     int val = curr.getProgress();
                     editor.putInt(type, val);
                     editor.commit();
-                    getPrefs();
+                    initializePrefVals();
                     setOtherBars();
                 }
             });
@@ -88,7 +97,11 @@ public class SettingsFragment extends Fragment {
         return v;
     }
 
-    public void getPrefs(){
+    /**
+     * Initializes the values of each value by searching for the values stored in the shared
+     * preferences
+     */
+    public void initializePrefVals(){
         int cals = sharedPrefs.getInt(CAL, 2000);
         int proteins = sharedPrefs.getInt(PROTEIN, 50);
         int carbs = sharedPrefs.getInt(CARB, 30);
@@ -96,6 +109,10 @@ public class SettingsFragment extends Fragment {
         vals = new int[]{cals, proteins, fats, carbs};
     }
 
+    /**
+     * Finds views for each text box and seek bar and saves them within the
+     * settings class.
+     */
     public void setSeekBars(View v){
         SeekBar calSeek = v.findViewById(R.id.seek_calories);
         SeekBar carbSeek = v.findViewById(R.id.seek_carbs);
@@ -111,6 +128,10 @@ public class SettingsFragment extends Fragment {
         textViews = new TextView[]{calText, proteinText, fatText, carbText};
     }
 
+    /**
+     * Automatically adjusts the seekbars for fat and carbs so that the three percent
+     * values automatically add up to 100 percent.
+     */
     public void setOtherBars(){
         if (vals[2] >= 100 - vals[1]){
             int newFat = 100 - vals[1];
