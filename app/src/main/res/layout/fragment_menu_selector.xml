@@ -2,29 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/linear_tabs"
     android:layout_height="match_parent"
     tools:context=".MenuSelectorFragment"
     android:orientation="horizontal">
     <Button
         style="@style/menuSelectorButton"
         android:text="@string/menu"
-        android:onClick="onClickViewHome"/>
+        android:tag="0"
+        android:onClick="onClickChangeTabAnim"/>
 
     <Button
         style="@style/menuSelectorButton"
         android:text="@string/goals"
-        android:onClick="onClickViewSettings"/>
+        android:tag="1"
+        android:onClick="onClickChangeTabAnim"/>
 
     <Button
         style="@style/menuSelectorButton"
         android:text="@string/meals"
-        android:onClick="onClickViewMeals"/>
+        android:tag="2"
+        android:onClick="onClickChangeTabAnim"/>
 
 
     <Button
         style="@style/menuSelectorButton"
         android:text="@string/progress"
-        android:onClick="onClickViewProgress"/>
+        android:tag="3"
+        android:onClick="onClickChangeTabAnim"/>
 
 
 </LinearLayout>

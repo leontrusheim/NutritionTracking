@@ -36,12 +36,6 @@ public class AddMealFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Put the date selector fragment within the UI of this fragment
-        /*Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.topBar, dateFrag);
-        fragmentTransaction.commit();*/
     }
 
     @Override
@@ -72,18 +66,21 @@ public class AddMealFragment extends Fragment {
         return invokerView;
     }
 
+    /**
+     * Update the UI to add images views for each meal and update the text w/ the date
+     */
     public void displayImagesAndText(Activity context){
+        //update the date
         TextView tv = invokerView.findViewById(R.id.date_add_meal);
         tv.setText(date);
+
+        //add meal images
         gl.removeAllViews();
         if (meals != null){
             for (Meal m : meals) {
                 ImageView iv = new ImageView(context);
                 if (m.getBitmap() != null){
                     iv.setImageBitmap(m.getBitmap());
-                }
-                else if (m.getUri() != null){
-                    iv.setImageURI(m.getUri());
                 }
                 else {
                     iv.setImageDrawable(getResources().getDrawable(R.drawable.default_meal));
@@ -108,6 +105,11 @@ public class AddMealFragment extends Fragment {
     }
 
 
+    /**
+     * Returns width of the screen / 3. This defines how large the images are displayed so
+     * that a column of 3 images will fill the width.
+     * @param v
+     */
     protected void getWidthInPixels(View v) {
         int offset = v.getWidth();
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -115,12 +117,19 @@ public class AddMealFragment extends Fragment {
         width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
     }
 
+    /**
+     * Reloads the meal page for a new date
+     */
     public void reloadAddMealPage(){
         date = MainActivity.getCurrDate();
         meals = MainActivity.getMealsAtCurr();
         displayImagesAndText(getActivity());
     }
 
+    /**
+     * Changes the date, forward, or backward, based on which button is clicked on
+     * @param v -- the button that is clicked to navigate through the dates
+     */
     public void onClickChangeDate(View v){
         if (v.getId() == R.id.forward){
             MainActivity.changeCurrDate(1);

@@ -121,14 +121,10 @@ public class AddPhotoFragment extends Fragment {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             meal.setBitmap(imageBitmap);
-            //meal.setPhotoURI(photoURI);
             Fragment mealSummaryFrag = new MealSummaryFragment(meal);
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
             fragmentTransaction.commit();
-            //ImageView iv = findViewById(image_index);
-
-            //iv.setImageBitmap(imageBitmap);
         }
     }
 
@@ -150,6 +146,10 @@ public class AddPhotoFragment extends Fragment {
         }
     }
 
+    /**
+     * Opens a fragment for getting photos from a content provider.
+     * @param v
+     */
     public void onClickGetPhotos(View v){
         Fragment photosFragment = new PhotosFragment();
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();

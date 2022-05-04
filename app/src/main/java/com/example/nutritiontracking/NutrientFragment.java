@@ -9,14 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NutrientFragment extends Fragment {
     public Activity containerActivity = null;
@@ -55,7 +49,7 @@ public class NutrientFragment extends Fragment {
                 Fragment mealFrag = new MealSummaryFragment(meal);
                 FragmentTransaction fragmentTransaction = getParentFragmentManager().
                         beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,
+                        R.anim.slide_right,
                         R.anim.fade_out);
                 fragmentTransaction.replace(R.id.mainContent, mealFrag);
                 fragmentTransaction.commit();

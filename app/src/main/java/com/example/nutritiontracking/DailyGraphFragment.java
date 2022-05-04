@@ -59,11 +59,6 @@ public class DailyGraphFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
-        /*Fragment dateFrag = new DateSelectorFragment(MainActivity.currDate);
-        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.dateBar, dateFrag);
-        fragmentTransaction.commit();*/
-
     }
 
     @Override
@@ -95,18 +90,9 @@ public class DailyGraphFragment extends Fragment {
         backButton.setOnClickListener(listener);
         forwardButton.setOnClickListener(listener);
 
-        //nutrients = (HashMap<String, Integer>) getArguments().getSerializable("nutrients");
         setDailyNutrients();
 
-        //total_calories = nutrients.get("Protein") * 4 + nutrients.get("Fat") * 9 + nutrients.get("Carbs") * 4;
-        //proteinPercent = nutrients.get("Protein") * 400 / total_calories;
-        //fatPercent = nutrients.get("Fat") * 900 / total_calories;
-        //carbsPercent = nutrients.get("Carbs") * 400 / total_calories;
-
-        // Creating a method setData()
-        // to set the text in text view and pie chart
         setData();
-        // Inflate the layout for this fragment
 
         return invokerView;
     }
@@ -136,18 +122,11 @@ public class DailyGraphFragment extends Fragment {
             invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources().getColor(R.color.protein));
             invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources().getColor(R.color.fat));
 
-            System.out.println("CALORIES: " + cals);
-            System.out.println("PROTEIN: " + protein);
-            System.out.println("FAT: " + fat);
-            System.out.println("CARBS: " + carbs);
             int diff = 100 - ((int) (proteinPercent) + (int) (fatPercent) + (int) (carbsPercent));
             System.out.println("DIFF: " + diff);
             for (int i = 0; i < diff; i++) {
                 dataset[i%3] += 1;
             }
-
-            // Set the percentages and date
-
 
             // Set the data and color to the pie chart
             pieChart.addPieSlice(
@@ -166,15 +145,19 @@ public class DailyGraphFragment extends Fragment {
                             dataset[2],
                             getResources().getColor(R.color.carbs)));
 
-
-            // To animate the pie chart
             pieChart.startAnimation();
+
+            //Sets text below the graph
             tvProtein.setText(Integer.toString(dataset[0]) + " %");
             tvFat.setText(Integer.toString(dataset[1]) + " %");
             tvCarbs.setText(Integer.toString(dataset[2]) + " %");
         }
     }
 
+    /**
+     * Iterate through each meal for the day, and sets the values for TOTAL cals,
+     * fats, carbs, and proteins for the day.
+     */
     public void setDailyNutrients(){
         cals = 0;
         fat = 0;
@@ -196,6 +179,7 @@ public class DailyGraphFragment extends Fragment {
             carbsPercent = carbs * 400 / cals;
     }
 
+
     public void onClickChangeDate(View v){
         if (v.getId() == R.id.tomorrow){
             MainActivity.changeCurrDate(1);
@@ -215,7 +199,6 @@ public class DailyGraphFragment extends Fragment {
     public int getCarbPercent(){
         return sharedPrefs.getInt(SettingsFragment.CARB, 30);
     }
-
 
     public int getFatPercent(){
         return sharedPrefs.getInt(SettingsFragment.FAT, 20);
