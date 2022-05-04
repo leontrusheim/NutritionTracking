@@ -103,7 +103,7 @@ public class Meal implements Serializable {
 
     public String bitmapToString(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,50, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG,25, baos);
         byte [] b=baos.toByteArray();
         String temp= Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
