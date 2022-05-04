@@ -1,10 +1,19 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: PhotosFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a PhotosFragment, a fragment that displays images
+ *          from the camera roll using a content provider and sets onclick listeners for
+ *          each image in order to save the image to a meal.
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -12,24 +21,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class PhotosFragment extends Fragment {
 
     int width;
 
-    private AppCompatActivity containerActivity = null;
     private View inflatedView = null;
     GridLayout ll;
 
@@ -44,9 +44,6 @@ public class PhotosFragment extends Fragment {
         return inflatedView;
     }
 
-    public void setContainerActivity(AppCompatActivity containerActivity) {
-        this.containerActivity = containerActivity;
-    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -60,12 +57,17 @@ public class PhotosFragment extends Fragment {
         fetchAndDisplayGalleryImages(getActivity());
     }
 
+    /**
+     * Fetches and displays the gallery images using a content provider. Gets each image in
+     * the user's camera roll and creates an image view for each saved image. Updates the UI to display
+     * each image.
+     *
+     * This method also sets an onClick listener for each image, such that if the image is clicked on,
+     * it will be assigned to the meal and saved.
+     */
     public void fetchAndDisplayGalleryImages(Activity context) {
         getWidthInPixels(inflatedView);
-        ArrayList<String> galleryImageUrls;
 
-        //get all columns of type images
-        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         //order data by date
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
         //get all data in Cursor by sorting in DESC order
@@ -104,7 +106,11 @@ public class PhotosFragment extends Fragment {
         query.close();
     }
 
-
+    /**
+     * Sets the width value to be equal to the width of the screen / 3.
+     * This defines how large the images are displayed so
+     * that a column of 3 images will fill the width.
+     */
     protected void getWidthInPixels(View v) {
         int offset = v.getWidth();
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -112,6 +118,10 @@ public class PhotosFragment extends Fragment {
         width = ((displayMetrics.widthPixels - offset)/ 3) - 50;
     }
 
+    /**
+     * Opens a new fragment to show the meal summary, with the selected image
+     * @param bitmap
+     */
     public void onClickOpenMealSummary(Bitmap bitmap){
         MainActivity.currMeal.setBitmap(bitmap);
         Fragment mealSummaryFrag = new MealSummaryFragment(MainActivity.currMeal);

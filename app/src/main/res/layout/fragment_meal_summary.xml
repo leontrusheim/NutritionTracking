@@ -25,6 +25,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/meal_image"
             android:id="@+id/ingredients_list"
+            android:fontFamily="@font/poppins_regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 

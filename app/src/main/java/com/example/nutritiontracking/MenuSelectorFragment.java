@@ -1,3 +1,12 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: MenuSelectorFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: Represents a MenuSelectorFragment, a fragment that contains buttons for
+ *          each task a user can perform on the app.
+ */
+
 package com.example.nutritiontracking;
 
 import android.os.Bundle;
@@ -13,7 +22,6 @@ public class MenuSelectorFragment extends Fragment {
     public MenuSelectorFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

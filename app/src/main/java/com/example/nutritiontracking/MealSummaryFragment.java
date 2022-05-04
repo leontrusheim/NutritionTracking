@@ -1,3 +1,12 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: MealSummaryFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: Represents a MealSummaryFragment class, a class that displays meals image,
+ *          ingredients, and nutritional value.
+ */
+
 package com.example.nutritiontracking;
 
 import android.graphics.Bitmap;
@@ -12,9 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.URI;
-
-
 public class MealSummaryFragment extends Fragment {
 
     View inflatedView;
@@ -25,12 +31,8 @@ public class MealSummaryFragment extends Fragment {
 
     Bitmap bitmap;
 
-    Uri photoURI;
-
-
     public MealSummaryFragment(Meal meal) {
         this.meal = meal;
-        photoURI = meal.getUri();
         bitmap = meal.getBitmap();
     }
 
@@ -49,12 +51,14 @@ public class MealSummaryFragment extends Fragment {
         ingredients = inflatedView.findViewById(R.id.ingredients_list);
         ingredients.setText(meal.getIngredients());
         tv.setText(meal.getNutrients());
+
+        // Set the image for the meal or the default image if none is saved
         if (bitmap != null){
             iv.setImageBitmap(bitmap);
         }
         else{
             iv.setImageResource(R.drawable.default_meal);
-        };
+        }
         return inflatedView;
     }
 }

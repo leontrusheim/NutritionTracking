@@ -1,3 +1,14 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: FoodSearchFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents a FoodSearchFragment, a fragment that allows
+ *      the user to input a name of a food ingredient, fetch API data related to the search,
+ *      and display the results in the UI. This class specifies the ArrayAdapter used to
+ *      place search results into the UI.
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
@@ -18,7 +29,6 @@ import java.util.ArrayList;
 
 public class FoodSearchFragment extends Fragment {
     public Activity containerActivity = null;
-    Meal meal = MainActivity.currMeal;
 
     public FoodSearchFragment() {
         // Required empty public constructor

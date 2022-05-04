@@ -1,3 +1,12 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: NutrientFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: The NutrientFragment is a fragment class that displays information about the current
+ *          ingredient and allows the user to add it to the meal.
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
@@ -36,24 +45,24 @@ public class NutrientFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_nutrient, container, false);
         Ingredient[] ingredients = (Ingredient[]) getArguments().getSerializable("ingredients");
         curr = ingredients[0];
+
+        //Set the TextView for the nutrient
         TextView textView = v.findViewById(R.id.header);
         textView.setText(curr.getName());
         TextView tv = v.findViewById(R.id.nutrient);
         tv.setText(curr.getNutrients());
 
+        //Set onclick to perform adding the ingredient to the meal
         Button b = v.findViewById(R.id.add_to_meal);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                meal.addIngredient(curr);
-                Fragment mealFrag = new MealSummaryFragment(meal);
-                FragmentTransaction fragmentTransaction = getParentFragmentManager().
-                        beginTransaction().setCustomAnimations(
-                        R.anim.slide_right,
-                        R.anim.fade_out);
-                fragmentTransaction.replace(R.id.mainContent, mealFrag);
-                fragmentTransaction.commit();
-            }
+        b.setOnClickListener(view -> {
+            meal.addIngredient(curr);
+            Fragment mealFrag = new MealSummaryFragment(meal);
+            FragmentTransaction fragmentTransaction = getParentFragmentManager().
+                    beginTransaction().setCustomAnimations(
+                    R.anim.slide_right,
+                    R.anim.fade_out);
+            fragmentTransaction.replace(R.id.mainContent, mealFrag);
+            fragmentTransaction.commit();
         });
 
         return v;

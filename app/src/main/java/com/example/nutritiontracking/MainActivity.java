@@ -1,11 +1,21 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: MainActivity.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: TODO TODO TODO
+ */
 package com.example.nutritiontracking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,12 +46,12 @@ public  class MainActivity extends AppCompatActivity {
 
     public static String searchTerm;
 
-    public static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    public static ArrayList<Ingredient> ingredients = new ArrayList<>();
     public static HashMap<String, ArrayList<Meal>> meals = new HashMap<>();
 
     public static Date date = new Date();
 
-    public static ArrayList<String> dates = new ArrayList<String>();
+    public static ArrayList<String> dates = new ArrayList<>();
 
     public static SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     public static String currDate = formatter.format(date);
@@ -56,6 +66,7 @@ public  class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkStoragePermission();
         setContentView(R.layout.activity_main);
 
         //Initialize file to store data if not already initialized
@@ -83,7 +94,7 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display settings and replaces the UI to display it.
      */
-    public void onClickViewSettings(View v, int animId){
+    public void onClickViewSettings(int animId){
         Fragment settingFrag = new SettingsFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -110,7 +121,7 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display Progress menu and replaces the UI to display it.
      */
-    public void onClickViewProgress(View v, int animId){
+    public void onClickViewProgress(){
         ProgressSelectorFragment progressFrag = new ProgressSelectorFragment();
         progressFrag.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
@@ -125,7 +136,7 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment for the main menu and replaces the UI to display it.
      */
-    public void onClickViewHome(View v, int animId){
+    public void onClickViewHome(){
         Fragment homeFrag = new HomeMenuFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -138,7 +149,7 @@ public  class MainActivity extends AppCompatActivity {
     /**
      * Creates a fragment to display Adding meal photos and replaces the UI to display it.
      */
-    public void onClickViewMeals(View v, int animId){
+    public void onClickViewMeals(int animId){
         Fragment mealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -179,6 +190,9 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Puts the fragment to display a Daily Summary on the screen.
+     */
     public void OnClickShowDailySummary(View v){
         currTab = -1;
         DailyGraphFragment dailyGraphFragment = new DailyGraphFragment(currDate, getMealsAtCurr());
@@ -192,6 +206,9 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Puts the fragment to display a Weekly Summary on the screen.
+     */
     public void OnClickShowWeeklySummary(View v){
         currTab = -1;
         int target = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
@@ -206,21 +223,23 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Updates and refreshes the weekly summary graph in order to display data
+     * relating to the specified nutrient type.
+     */
     public void OnClickUpdateWeeklySummary(View v){
         Button b = (Button) v;
         String nutrient = (String) b.getText();
-        System.out.println(nutrient);
         String color = (String) b.getTag();
 
         int targetCals = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
 
         int target = sharedPrefs.getInt(nutrient, 50);
-        System.out.println("Target" + target);
         if (nutrient.equals(SettingsFragment.CARB) || nutrient.equals(SettingsFragment.PROTEIN)){
-            target = (int) (targetCals * target) / (400);
+            target = (targetCals * target) / (400);
         }
         else if (nutrient.equals(SettingsFragment.FAT)){
-            target = (int) (targetCals * target) / (900);
+            target = (targetCals * target) / (900);
         }
 
         WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment(nutrient, color, target);
@@ -231,7 +250,9 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-
+    /**
+     * Performs a search for food items relating to the search term.
+     */
     public void OnClickShowFoodItems(View v){
         ingredients.clear();
         EditText input = findViewById(R.id.edit_food);
@@ -239,24 +260,31 @@ public  class MainActivity extends AppCompatActivity {
         new SearchTask().execute();
     }
 
+    /**
+     * Clears the edit text so that the user may easily type in a new search term.
+     */
     public void onClickClearEditText(View v){
         EditText et = findViewById(R.id.edit_food);
         et.setText("");
     }
 
+    /**
+     * An onClick method for saving the meal. It adds teh meal to the hashmap if it is not already
+     * in the hashmap, updates the AddMeal Fragment to display the new meal image, and saves
+     * the meals to a text file for persistent memory.
+     */
     public void onClickSaveMeal(View v){
         if (!dates.contains(currDate)) {
             dates.add(currDate);
         }
         ArrayList<Meal> dateMeals = meals.get(currDate);
         if (dateMeals == null){
-            dateMeals = new ArrayList<Meal>();
+            dateMeals = new ArrayList<>();
             meals.put(currDate, dateMeals);
         }
         if (!dateMeals.contains(currMeal)) {
             dateMeals.add(0, currMeal);
         }
-        System.out.println(currMeal.toString());
         Fragment addMealFrag = new AddMealFragment(meals.get(currDate), currDate);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -267,7 +295,9 @@ public  class MainActivity extends AppCompatActivity {
         saveToFile();
     }
 
-
+    /**
+     * Opens a new fragment to display the methods for how the user can add a meal picture.
+     */
     public void onClickAddMeal(View v){
         currTab = -1;
         createNewMeal();
@@ -281,6 +311,9 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * TODO
+     */
     public void setFoodSearchFragment(){
         FoodSearchFragment searchFragment = new FoodSearchFragment();
         searchFragment.setContainerActivity(this);
@@ -294,13 +327,22 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * TODO
+     */
     private class SearchTask extends AsyncTask<Object, Void, JSONObject> {
 
+        /**
+         * TODO
+         */
         @Override
         protected JSONObject doInBackground(Object[] objects) {
             return fetchJason();
         }
 
+        /**
+         * TODO
+         */
         @Override
         protected void onPostExecute(JSONObject jsonFood) {
             try {
@@ -320,6 +362,9 @@ public  class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * TODO
+     */
     public JSONObject fetchJason(){
         try {
             String json = "";
@@ -334,7 +379,6 @@ public  class MainActivity extends AppCompatActivity {
                     " Chrome/85.0.4183.121 Safari/537.36 OPR/71.0.3770.284");
             BufferedReader in = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
             while ((line = in.readLine()) != null) {
-                System.out.println("JSON LINE " + line);
                 json += line;
             }
             in.close();
@@ -370,36 +414,50 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Sets the MainActivity's current meal to the meal passed
+     */
     public static void setCurrMeal(Meal currMeal) {
         MainActivity.currMeal = currMeal;
     }
 
+    /**
+     * Creates a new meal object and sets the current meal to it
+     */
     public static void createNewMeal(){
-        Meal newMeal = new Meal();
-        currMeal = newMeal;
+        currMeal = new Meal();
     }
 
-
+    /**
+     * Gets the current date as a string (current as in which date the MainActivity is
+     * currently viewing, not the actual current date)
+     */
     public static String getCurrDate() {
         return currDate;
     }
 
+    /**
+     * Sets the current date to the string date passed
+     */
     public static void setCurrDate(String currDate) {
         MainActivity.currDate = currDate;
     }
 
-    public void reloadDailyPage(){}
 
+    /**
+     * Saves the meal data to a text file by iterating through the meals for each day,
+     * and storing the data as a string.
+     */
     public void saveToFile(){
         editor.putBoolean(FILE_INIT, true);
         editor.commit();
         String temp;
         temp = "{\"dates\":[";
-        ArrayList<String> dateStrs = new ArrayList<String>();
+        ArrayList<String> dateStrs = new ArrayList<>();
         for (String date: dates){
             String dStr = "{\"date\":" + "\"" + date + "\",\"meals\":[";
             ArrayList<Meal> currMeals = meals.get(date);
-            ArrayList<String> mealStr = new ArrayList<String>();
+            ArrayList<String> mealStr = new ArrayList<>();
             for (Meal m : currMeals){
                 mealStr.add(m.toString());
             }
@@ -421,6 +479,10 @@ public  class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Converts string data (from a text file) into Meal objects and populates
+     * the arraylists in the MainActivity class with these meals.
+     */
     public void stringToMeals(String s){
         JSONObject obj = null;
         try{obj = new JSONObject(s);
@@ -429,7 +491,7 @@ public  class MainActivity extends AppCompatActivity {
                 JSONObject date = jsonDates.getJSONObject(i);
                 String dateVal = date.getString("date");
                 dates.add(dateVal);
-                ArrayList<Meal> newMealList = new ArrayList<Meal>();
+                ArrayList<Meal> newMealList = new ArrayList<>();
                 JSONArray jsonMeals = date.getJSONArray("meals");
                 for (int j = 0; j < jsonMeals.length(); j++){
                     JSONObject meal = jsonMeals.getJSONObject(j);
@@ -440,17 +502,18 @@ public  class MainActivity extends AppCompatActivity {
             }
         }
         catch(Exception e){
-            System.out.println("THIS SORT OF CRASH OCCURED");
             e.printStackTrace();
         }
     }
 
-    public void readFiles(){
+    /**
+     * Reads meal data saved to a text file.
+     */
+    public void readFiles() {
         FileInputStream fis = null;
-        try{
-             fis = getBaseContext().openFileInput("data.txt");
-        }
-        catch(Exception e){
+        try {
+            fis = getBaseContext().openFileInput("data.txt");
+        } catch (Exception e) {
             e.printStackTrace();
         }
         InputStreamReader inputStreamReader =
@@ -470,16 +533,29 @@ public  class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Returns an ArrayList of meals from the current date
+     * @return
+     */
     public static ArrayList<Meal> getMealsAtCurr(){
         return meals.get(currDate);
     }
 
+    /**
+     * Increases or decreases the current date by inc number of days
+     * @param inc -- an int, the number of days to increase the current date by.
+     */
     public static void changeCurrDate(int inc){
         int newDate = MainActivity.date.getDate() + inc;
         date.setDate(newDate);
         currDate = formatter.format(date);
     }
 
+    /**
+     * Main onClick method for switching tabs in the UI. This function determines which
+     * tab the user is navigate from and to, sets the animation type (left or right) to
+     * be displayed, then calls the appropriate method in order to change the tab.
+     */
     public void onClickChangeTabAnim(View v){
         int goHere = Integer.parseInt((String) v.getTag());
         int animId = 0;
@@ -493,17 +569,36 @@ public  class MainActivity extends AppCompatActivity {
         currTab = goHere;
         switch (goHere){
             case 0:
-                onClickViewHome(v, animId);
+                onClickViewHome();
                 break;
             case 1:
-                onClickViewSettings(v, animId);
+                onClickViewSettings(animId);
                 break;
             case 2:
-                onClickViewMeals(v, animId);
+                onClickViewMeals(animId);
                 break;
             case 3:
-                onClickViewProgress(v, animId);
+                onClickViewProgress();
                 break;
+        }
+    }
+
+    /**
+     * Automatically requests read and write to external storage when app is first opened. This allows the user
+     * to use a content provider to display images without it crashing.
+     */
+    public void checkStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        } else {
+            // Ask for the permission
+            requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 100);
+        }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        } else {
+            // Ask for the permission
+            requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 100);
         }
     }
 

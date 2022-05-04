@@ -1,3 +1,14 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: AddPhotoFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This class represents an AddPhotoFragment, a fragment that allows the user
+ *          to specify how they would like to add a photo to the meal (camera intent, content
+ *          provider or default photo). It sets up the implicit intent to take a camera photo,
+ *          as well as methods to saving the photos.
+ */
+
 package com.example.nutritiontracking;
 
 import android.app.Activity;
@@ -13,18 +24,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 
 public class AddPhotoFragment extends Fragment {
 
@@ -45,24 +53,14 @@ public class AddPhotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_photo, container, false);
-        Button b = v.findViewById(R.id.captureButton);
 
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickTakeCameraPhoto(view);
-            }
-        });
+        //Set onClick listeners for two different ways to add photos
+        Button b = v.findViewById(R.id.captureButton);
+        b.setOnClickListener(this::onClickTakeCameraPhoto);
 
         Button b2 = v.findViewById(R.id.photosButton);
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickGetPhotos(view);
-            }
-        });
+        b2.setOnClickListener(this::onClickGetPhotos);
         return v;
     }
 
@@ -148,7 +146,6 @@ public class AddPhotoFragment extends Fragment {
 
     /**
      * Opens a fragment for getting photos from a content provider.
-     * @param v
      */
     public void onClickGetPhotos(View v){
         Fragment photosFragment = new PhotosFragment();

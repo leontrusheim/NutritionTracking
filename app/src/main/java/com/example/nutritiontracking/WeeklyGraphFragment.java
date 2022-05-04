@@ -1,26 +1,28 @@
+/*
+ * @authors: Ryan Pittner & Leon Trusheim
+ * @file: WeeklyGraphFragment.java
+ * @assignment: Nutrition Tracking (Final Project)
+ * @course: CSc 317 - Spring 2022 (Dicken)
+ * @description: This represents a WeeklyGraphFragment, a fragment that displays
+ *          a summary of the weekly nutrient intake. Its constructor takes a nutrient type
+ *          (cals, carbs, fat, protein) of the nutrient summary to be displayed, a color
+ *          of the graph, and a target value (the goal for that type of nutrient).
+ */
+
 package com.example.nutritiontracking;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
+
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -29,12 +31,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class WeeklyGraphFragment extends Fragment {
 
@@ -49,8 +49,6 @@ public class WeeklyGraphFragment extends Fragment {
 
     String nutrientType;
 
-    ArrayList<Float> values;
-
     BarChart barChart;
     BarData barData;
     BarDataSet barDataSet;
@@ -59,11 +57,15 @@ public class WeeklyGraphFragment extends Fragment {
     int targetValue;
     public ArrayList<String> days;
     ArrayList<Float> dataset;
-    String nutrient;
-    HashMap<String,int[]> nutrients;
     String color;
     public Activity containerActivity = null;
 
+    /**
+     *  Constructor for weekly graph fragment
+     * @param nutrientType -- a string representing the type of nutrient to display
+     * @param color -- a string, representing the color of the graph
+     * @param target -- an int, the target goal value for that nutrient type
+     */
     public WeeklyGraphFragment(String nutrientType, String color, int target) {
         this.nutrientType = nutrientType;
         this.color = color;
@@ -85,7 +87,7 @@ public class WeeklyGraphFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_weekly_graph, container, false);
-        getValues(nutrientType);
+        setWeeklyValues();
 
         targetTV = v.findViewById(R.id.target_value);
         barChart = v.findViewById(R.id.idBarChart);
@@ -95,14 +97,14 @@ public class WeeklyGraphFragment extends Fragment {
         return v;
     }
 
-    public void onClickChangeGraph(String nutrient){
-        getValues(nutrient);
-        drawGraph();
-    }
-
+    /**
+     * Configures the chart's appearance including the xAxis, description display,
+     * and typeface.
+     */
     private void configureChartAppearance() {
         barChart.getDescription().setEnabled(false);
-        barChart.setDrawValueAboveBar(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setNoDataTextTypeface(getResources().getFont(R.font.poppins_regular));
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new ValueFormatter() {
@@ -113,16 +115,22 @@ public class WeeklyGraphFragment extends Fragment {
         });
     }
 
+    /**
+     * Draws the graph by setting the data set, setting the colors, setting the text,
+     * then animating the graph
+     */
     public void drawGraph(){
         barEntriesArrayList = new ArrayList<>();
         for (int i=0; i < days.size(); i++){
             barEntriesArrayList.add(new BarEntry(i, dataset.get(i)));
         }
         barDataSet = new BarDataSet(barEntriesArrayList, nutrientType);
+        barDataSet.setValueTypeface(getResources().getFont(R.font.poppins_regular));
         configureChartAppearance();
         barData = new BarData(barDataSet);
         barChart.setData(barData);
         LimitLine ll = new LimitLine(targetValue, "Target Value");
+        ll.setTypeface(getResources().getFont(R.font.poppins_regular));
         barChart.getAxisLeft().addLimitLine(ll);
         barDataSet.setColors(Color.parseColor(color));
         barDataSet.setValueTextColor(Color.BLACK);
@@ -136,7 +144,11 @@ public class WeeklyGraphFragment extends Fragment {
 
     }
 
-    public void getValues(String nutrient){
+    /**
+     * Get the total of each macro consumed for the past 7 days. Set the dataset
+     * to contain these new values.
+     */
+    public void setWeeklyValues(){
         MainActivity.setCurrDate(currDate);
         MainActivity.changeCurrDate(-7);
         dataset = new ArrayList<>();
@@ -167,7 +179,5 @@ public class WeeklyGraphFragment extends Fragment {
             }
             else {dataset.add(0.0f);}
         }
-        System.out.println(dataset);
-        System.out.println(days);
     }
 }
