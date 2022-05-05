@@ -37,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,6 +67,8 @@ public  class MainActivity extends AppCompatActivity {
     public static String currDate = formatter.format(date);
     public static Meal currMeal;
 
+    public File fileToSave;
+
     public boolean fileInit;
     public static final String FILE_INIT = "FILE_INIT";
 
@@ -83,8 +86,10 @@ public  class MainActivity extends AppCompatActivity {
         editor = sharedPrefs.edit();
         fileInit = sharedPrefs.getBoolean(FILE_INIT, false);
         if (! fileInit){
+            fileToSave = new File(getBaseContext().getExternalFilesDir(null), "file.txt");
             saveToFile();
         }
+        else{fileToSave = getBaseContext().getExternalFilesDir("file.txt");}
         readFiles();
 
         // add menu bar at bottom of screen
@@ -491,7 +496,9 @@ public  class MainActivity extends AppCompatActivity {
         String filename = "data.txt";
         String fileContents = temp;
         try {
-            FileOutputStream fos = getBaseContext().openFileOutput(filename, MODE_PRIVATE);
+
+            FileOutputStream fos = new FileOutputStream(fileToSave);
+                    //getBaseContext().openFileOutput(filename, MODE_PRIVATE);
             fos.write(fileContents.getBytes(StandardCharsets.UTF_8));
         }
         catch (Exception e){
