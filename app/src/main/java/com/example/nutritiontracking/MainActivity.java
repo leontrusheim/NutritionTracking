@@ -493,7 +493,7 @@ public  class MainActivity extends AppCompatActivity {
 
         temp += (String.join(",", dateStrs) + "]}");
 
-        String filename = "data.txt";
+        String filename = "file.txt";
         String fileContents = temp;
         try {
 
@@ -539,7 +539,7 @@ public  class MainActivity extends AppCompatActivity {
     public void readFiles() {
         FileInputStream fis = null;
         try {
-            fis = getBaseContext().openFileInput("data.txt");
+            fis = getBaseContext().openFileInput("file.txt");
         } catch (Exception e) {
             e.printStackTrace();
         }
