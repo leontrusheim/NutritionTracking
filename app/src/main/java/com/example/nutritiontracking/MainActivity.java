@@ -487,7 +487,7 @@ public  class MainActivity extends AppCompatActivity {
             dateStrs.add(dStr);
         }
 
-        temp += String.join(",", dateStrs) + "]}";
+        temp += (String.join(",", dateStrs) + "]}");
 
         String filename = "data.txt";
         String fileContents = temp;
