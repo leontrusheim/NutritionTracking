@@ -61,6 +61,7 @@ public class NutrientFragment extends Fragment {
                     beginTransaction().setCustomAnimations(
                     R.anim.slide_right,
                     R.anim.fade_out);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.replace(R.id.mainContent, mealFrag);
             fragmentTransaction.commit();
         });
