@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -25,6 +26,10 @@ import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class PhotosFragment extends Fragment {
 
@@ -66,47 +71,65 @@ public class PhotosFragment extends Fragment {
      * on, it will be assigned to the meal and saved.
      */
     public void fetchAndDisplayGalleryImages(Activity context) {
-        getWidthInPixels(inflatedView);
+        new PhotosTask().execute();
+    }
 
-        //order data by date
-        final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
-        //get all data in Cursor by sorting in DESC order
-        Cursor query = getActivity().getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID},
-                null, null, orderBy + " DESC");
+    private class PhotosTask extends AsyncTask<Void, Void, ArrayList<String>>{
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+            ArrayList<String> imageStrs = new ArrayList<>();
+            getWidthInPixels(inflatedView);
+
+            //order data by date
+            final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
+            //get all data in Cursor by sorting in DESC order
+            Cursor query = getActivity().getContentResolver().query(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID},
+                    null, null, orderBy + " DESC");
 
 
-        for (int i = 0; i < query.getCount(); i++) {
-            if (i >= 20){
-                break;
-            }
-            query.moveToPosition(i);
-            int dataColumnIndex = query.getColumnIndex(MediaStore.Images.Media.DATA);
-            String imageString = query.getString(dataColumnIndex);
-
-            Bitmap bitmap = BitmapFactory.decodeFile(imageString);
-
-            ImageView iv = new ImageView(context);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
-            iv.setLayoutParams(lp);
-            iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            iv.setImageBitmap(bitmap);
-
-            Bitmap bitmapCopy = bitmap;
-            iv.setOnClickListener(new View.OnClickListener() {
-
-                final Bitmap finalBitmap = bitmapCopy;
-
-                @Override
-                public void onClick(View view) {
-                    onClickOpenMealSummary(finalBitmap);
+            for (int i = 0; i < query.getCount(); i++) {
+                if (i >= 20){
+                    break;
                 }
-            });
-            ll.addView(iv);
+                query.moveToPosition(i);
+                int dataColumnIndex = query.getColumnIndex(MediaStore.Images.Media.DATA);
+                String imageString = query.getString(dataColumnIndex);
+
+                imageStrs.add(imageString);
+
+            }
+            query.close();
+            return imageStrs;
         }
-        query.close();
+
+        @Override
+        protected void onPostExecute(ArrayList<String> strings) {
+            super.onPostExecute(strings);
+            for (String imageString : strings){
+                Bitmap bitmap = BitmapFactory.decodeFile(imageString);
+
+                ImageView iv = new ImageView(getActivity());
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, width);
+                iv.setLayoutParams(lp);
+                iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                iv.setImageBitmap(bitmap);
+
+                Bitmap bitmapCopy = bitmap;
+                iv.setOnClickListener(new View.OnClickListener() {
+
+                    final Bitmap finalBitmap = bitmapCopy;
+
+                    @Override
+                    public void onClick(View view) {
+                        onClickOpenMealSummary(finalBitmap);
+                    }
+                });
+                ll.addView(iv);
+            }
+        }
     }
 
     /**
