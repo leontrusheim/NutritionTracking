@@ -110,6 +110,7 @@ public  class MainActivity extends AppCompatActivity {
                         animId,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, settingFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -118,12 +119,13 @@ public  class MainActivity extends AppCompatActivity {
      */
     public void onClickGetHelp(View v){
         currTab = -1;
-        Fragment helpFrag = new HelpFragment();
+        HelpFragment helpFrag = new HelpFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
                         R.anim.slide_up,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, helpFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -139,6 +141,7 @@ public  class MainActivity extends AppCompatActivity {
                         R.anim.fade_out);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, progressFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -152,6 +155,7 @@ public  class MainActivity extends AppCompatActivity {
                         R.anim.slide_left,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, homeFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -165,6 +169,7 @@ public  class MainActivity extends AppCompatActivity {
                         animId,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealFrag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -178,6 +183,7 @@ public  class MainActivity extends AppCompatActivity {
                         R.anim.slide_right,
                         R.anim.fade_out);
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
     /**
@@ -301,6 +307,7 @@ public  class MainActivity extends AppCompatActivity {
                 .setCustomAnimations(
                 R.anim.slide_right,
                 R.anim.fade_out);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, addMealFrag);
         fragmentTransaction.commit();
         saveToFile();
@@ -318,6 +325,7 @@ public  class MainActivity extends AppCompatActivity {
                 .setCustomAnimations(
                         R.anim.slide_right,
                         R.anim.fade_out);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, photoFrag);
         fragmentTransaction.commit();
     }

@@ -78,6 +78,9 @@ public class PhotosFragment extends Fragment {
 
 
         for (int i = 0; i < query.getCount(); i++) {
+            if (i >= 20){
+                break;
+            }
             query.moveToPosition(i);
             int dataColumnIndex = query.getColumnIndex(MediaStore.Images.Media.DATA);
             String imageString = query.getString(dataColumnIndex);
