@@ -72,6 +72,9 @@ public class WeeklyGraphFragment extends Fragment {
         targetValue = target;
     }
 
+    /**
+     * Setter for containerActivity
+     */
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
     }

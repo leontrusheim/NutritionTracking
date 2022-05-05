@@ -31,6 +31,9 @@ public class MealSummaryFragment extends Fragment {
 
     Bitmap bitmap;
 
+    /**
+     * Constructor for the class taking in a Meal.
+     */
     public MealSummaryFragment(Meal meal) {
         this.meal = meal;
         bitmap = meal.getBitmap();
@@ -45,7 +48,8 @@ public class MealSummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflatedView = inflater.inflate(R.layout.fragment_meal_summary, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_meal_summary, container,
+                false);
         iv = inflatedView.findViewById(R.id.meal_image);
         tv = inflatedView.findViewById(R.id.nutrient_summary);
         ingredients = inflatedView.findViewById(R.id.ingredients_list);

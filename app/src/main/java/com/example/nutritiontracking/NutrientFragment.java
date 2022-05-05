@@ -3,8 +3,8 @@
  * @file: NutrientFragment.java
  * @assignment: Nutrition Tracking (Final Project)
  * @course: CSc 317 - Spring 2022 (Dicken)
- * @description: The NutrientFragment is a fragment class that displays information about the current
- *          ingredient and allows the user to add it to the meal.
+ * @description: The NutrientFragment is a fragment class that displays information about the
+ *               current ingredient and allows the user to add it to the meal.
  */
 
 package com.example.nutritiontracking;

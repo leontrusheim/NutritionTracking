@@ -3,7 +3,16 @@
  * @file: MainActivity.java
  * @assignment: Nutrition Tracking (Final Project)
  * @course: CSc 317 - Spring 2022 (Dicken)
- * @description: TODO TODO TODO
+ * @description: This application is a nutrition tracker. The user can (1) set goals for their
+ * nutritional intake, (2) track their meals, and (3) view their nutritional intake trends in a
+ * graphical form. A user may set their personal goals by inputting a target value for multiple
+ * nutritional categories (calories, protein, fat, and carb). When entering meals, the user may
+ * take a picture of the meal, search a Nutritional API for each ingredient / food item within the
+ * meal, and add it to the meal. It will display the nutritional value of each ingredient as well
+ * as the sum of all nutritional values for the entire meal. This gets converted into a graphical
+ * representation of your eating habits and whether or not you are meeting your food goals. (1) is
+ * a daily pie chart displaying your macro nutrients as a percentage of total calories ate. (2) is
+ * a weekly bar chart displaying your food consumption for each nutrient.
  */
 package com.example.nutritiontracking;
 
@@ -172,7 +181,8 @@ public  class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
     /**
-     * Creates a fragment to display search results for a food item and replaces the UI to display it.
+     * Creates a fragment to display search results for a food item and replaces the UI to display
+     * it.
      */
     public void OnClickSearchFoodItems(View v){
         FoodSearchFragment searchFragment = new FoodSearchFragment();
@@ -212,7 +222,8 @@ public  class MainActivity extends AppCompatActivity {
     public void OnClickShowWeeklySummary(View v){
         currTab = -1;
         int target = sharedPrefs.getInt(SettingsFragment.CAL, 2000);
-        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("cals", "#8FDD34", target);
+        WeeklyGraphFragment weeklyGraphFragment = new WeeklyGraphFragment("cals",
+                "#8FDD34", target);
         weeklyGraphFragment.setContainerActivity(this);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(
@@ -312,7 +323,8 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Creates a fragment where you can search for ingredients and view the results displayed by
+     * the nutrion API.
      */
     public void setFoodSearchFragment(){
         FoodSearchFragment searchFragment = new FoodSearchFragment();
@@ -328,12 +340,13 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Creates a SearchTask (AsyncTask) to search for ingredients' nutrition values using the
+     * nutrition API.
      */
     private class SearchTask extends AsyncTask<Object, Void, JSONObject> {
 
         /**
-         * TODO
+         * Fetches and returns the JSON from the nutrition API in the background.
          */
         @Override
         protected JSONObject doInBackground(Object[] objects) {
@@ -341,7 +354,7 @@ public  class MainActivity extends AppCompatActivity {
         }
 
         /**
-         * TODO
+         * Extracts the important information from the JSONObject returned by the function above.
          */
         @Override
         protected void onPostExecute(JSONObject jsonFood) {
@@ -363,15 +376,15 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * TODO
+     * Function to fetch the JSON from the nutrition API. Returns the JSONObject.
      */
     public JSONObject fetchJason(){
         try {
             String json = "";
             String line;
             URL url = new URL("https://api.nutritionix.com/v1_1/search/" +
-                    searchTerm + "?results=0:50&fields=item_name,brand_name,nf_calories,nf_total_fat" +
-                    ",nf_total_carbohydrate,nf_protein,&appId=267a1365&appKey=" +
+                    searchTerm + "?results=0:50&fields=item_name,brand_name,nf_calories," +
+                    "nf_total_fat,nf_total_carbohydrate,nf_protein,&appId=267a1365&appKey=" +
                     "4d11e256992595b46b476dd78c395b30");
             URLConnection urlc = url.openConnection();
             urlc.setRequestProperty("user-agent", "Mozilla/5.0 " +
@@ -534,8 +547,7 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Returns an ArrayList of meals from the current date
-     * @return
+     * Returns an ArrayList of meals from the current date.
      */
     public static ArrayList<Meal> getMealsAtCurr(){
         return meals.get(currDate);
@@ -584,21 +596,23 @@ public  class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Automatically requests read and write to external storage when app is first opened. This allows the user
-     * to use a content provider to display images without it crashing.
+     * Automatically requests read and write to external storage when app is first opened. This
+     * allows the user to use a content provider to display images without it crashing.
      */
     public void checkStoragePermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
         } else {
             // Ask for the permission
-            requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE }, 100);
+            requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                    100);
         }
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
         } else {
             // Ask for the permission
-            requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 100);
+            requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    100);
         }
     }
 

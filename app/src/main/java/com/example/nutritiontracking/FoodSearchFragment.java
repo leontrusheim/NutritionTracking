@@ -33,6 +33,10 @@ public class FoodSearchFragment extends Fragment {
     public FoodSearchFragment() {
         // Required empty public constructor
     }
+
+    /**
+     * Setter for containerActivity
+     */
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
     }
@@ -50,7 +54,8 @@ public class FoodSearchFragment extends Fragment {
         String searchTerm = getArguments().getString("searchTerm");
         EditText editText = v.findViewById(R.id.edit_food);
         editText.setText(searchTerm);
-        ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getArguments().getSerializable("ingredients");
+        ArrayList<Ingredient> ingredients = (ArrayList<Ingredient>) getArguments()
+                .getSerializable("ingredients");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter (containerActivity, R.layout.food_list_row,
                 R.id.food_list_row_item, ingredients) {

@@ -59,11 +59,11 @@ public class PhotosFragment extends Fragment {
 
     /**
      * Fetches and displays the gallery images using a content provider. Gets each image in
-     * the user's camera roll and creates an image view for each saved image. Updates the UI to display
-     * each image.
+     * the user's camera roll and creates an image view for each saved image. Updates the UI to
+     * display each image.
      *
-     * This method also sets an onClick listener for each image, such that if the image is clicked on,
-     * it will be assigned to the meal and saved.
+     * This method also sets an onClick listener for each image, such that if the image is clicked
+     * on, it will be assigned to the meal and saved.
      */
     public void fetchAndDisplayGalleryImages(Activity context) {
         getWidthInPixels(inflatedView);
@@ -125,7 +125,8 @@ public class PhotosFragment extends Fragment {
     public void onClickOpenMealSummary(Bitmap bitmap){
         MainActivity.currMeal.setBitmap(bitmap);
         Fragment mealSummaryFrag = new MealSummaryFragment(MainActivity.currMeal);
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                .beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
         fragmentTransaction.commit();

@@ -118,20 +118,27 @@ public class DailyGraphFragment extends Fragment {
         pieChart.clearChart();
 
         if (cals == 0){ // if there is not meal data for that day
-            invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources().getColor(R.color.light_gray));
-            invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources().getColor(R.color.light_gray));
-            invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources().getColor(R.color.light_gray));
+            invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources()
+                    .getColor(R.color.light_gray));
+            invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources()
+                    .getColor(R.color.light_gray));
+            invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources()
+                    .getColor(R.color.light_gray));
             tvProtein.setText("");
             tvCarbs.setText("");
             tvFat.setText("");
 
             pieChart.addPieSlice(//add a blank slice
-                    new PieModel("null", 100, getResources().getColor(R.color.white)));
+                    new PieModel("null", 100, getResources()
+                            .getColor(R.color.white)));
         }
         else { //there is meal data
-            invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources().getColor(R.color.carbs));
-            invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources().getColor(R.color.protein));
-            invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources().getColor(R.color.fat));
+            invokerView.findViewById(R.id.carb_color).setBackgroundColor(getResources()
+                    .getColor(R.color.carbs));
+            invokerView.findViewById(R.id.protein_color).setBackgroundColor(getResources()
+                    .getColor(R.color.protein));
+            invokerView.findViewById(R.id.fat_color).setBackgroundColor(getResources()
+                    .getColor(R.color.fat));
 
             int diff = 100 - ((proteinPercent) + (fatPercent) + (carbsPercent));
             for (int i = 0; i < diff; i++) {
@@ -140,11 +147,14 @@ public class DailyGraphFragment extends Fragment {
 
             // Set the data and color to the pie chart
             pieChart.addPieSlice(
-                    new PieModel("Protein", dataset[0], getResources().getColor(R.color.protein)));
+                    new PieModel("Protein", dataset[0], getResources()
+                            .getColor(R.color.protein)));
             pieChart.addPieSlice(
-                    new PieModel("Fat", dataset[1], getResources().getColor(R.color.fat)));
+                    new PieModel("Fat", dataset[1], getResources()
+                            .getColor(R.color.fat)));
             pieChart.addPieSlice(
-                    new PieModel("Carbs", dataset[2], getResources().getColor(R.color.carbs)));
+                    new PieModel("Carbs", dataset[2], getResources()
+                            .getColor(R.color.carbs)));
 
             pieChart.startAnimation();
 

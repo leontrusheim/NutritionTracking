@@ -26,6 +26,10 @@ public class ProgressSelectorFragment extends Fragment {
     public ProgressSelectorFragment() {
         // Required empty public constructor
     }
+
+    /**
+     * Setter for containerActivity
+     */
     public void setContainerActivity(Activity containerActivity) {
         this.containerActivity = containerActivity;
     }

@@ -120,7 +120,8 @@ public class AddPhotoFragment extends Fragment {
             Bitmap imageBitmap = BitmapFactory.decodeFile(currentPhotoPath);
             meal.setBitmap(imageBitmap);
             Fragment mealSummaryFrag = new MealSummaryFragment(meal);
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                    .beginTransaction();
             fragmentTransaction.replace(R.id.mainContent, mealSummaryFrag);
             fragmentTransaction.commit();
         }
@@ -149,7 +150,8 @@ public class AddPhotoFragment extends Fragment {
      */
     public void onClickGetPhotos(View v){
         Fragment photosFragment = new PhotosFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                .beginTransaction();
         fragmentTransaction.replace(R.id.mainContent, photosFragment);
         fragmentTransaction.commit();
     }

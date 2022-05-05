@@ -35,11 +35,15 @@ public class AddMealFragment extends Fragment {
     String date;
     View invokerView;
 
+    /**
+     * Constructor of the class taking in an ArrayList of Meals and a String date.
+     */
     public AddMealFragment(ArrayList<Meal> meals, String date) {
         this.meals = meals;
         this.date = date;
 
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
