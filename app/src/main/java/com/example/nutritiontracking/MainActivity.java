@@ -496,7 +496,6 @@ public  class MainActivity extends AppCompatActivity {
         String filename = "file.txt";
         String fileContents = temp;
         try {
-
             FileOutputStream fos = new FileOutputStream(fileToSave);
                     //getBaseContext().openFileOutput(filename, MODE_PRIVATE);
             fos.write(fileContents.getBytes(StandardCharsets.UTF_8));
@@ -539,7 +538,7 @@ public  class MainActivity extends AppCompatActivity {
     public void readFiles() {
         FileInputStream fis = null;
         try {
-            fis = getBaseContext().openFileInput("file.txt");
+            fis = new FileInputStream(fileToSave);
         } catch (Exception e) {
             e.printStackTrace();
         }
