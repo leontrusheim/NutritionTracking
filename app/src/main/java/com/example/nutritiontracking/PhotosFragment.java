@@ -59,22 +59,19 @@ public class PhotosFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        fetchAndDisplayGalleryImages(getActivity());
-    }
-
-    /**
-     * Fetches and displays the gallery images using a content provider. Gets each image in
-     * the user's camera roll and creates an image view for each saved image. Updates the UI to
-     * display each image.
-     *
-     * This method also sets an onClick listener for each image, such that if the image is clicked
-     * on, it will be assigned to the meal and saved.
-     */
-    public void fetchAndDisplayGalleryImages(Activity context) {
         new PhotosTask().execute();
     }
+    /**
+     * Creates a PhotosTask (AsyncTask) to use a content provider to get no more than 20 photos
+     * from the camera roll to select as the photo for the meal.
+     */
 
     private class PhotosTask extends AsyncTask<Void, Void, ArrayList<String>>{
+
+        /**
+         * Fetches and displays the gallery images using a content provider. Gets each image in
+         * the user's camera roll and adds it to an arraylist of all image strings.
+         */
         @Override
         protected ArrayList<String> doInBackground(Void... voids) {
             ArrayList<String> imageStrs = new ArrayList<>();
@@ -104,6 +101,10 @@ public class PhotosFragment extends Fragment {
             return imageStrs;
         }
 
+        /**
+         * Updates the UI to display each image by adding an ImageView for each image. Sets an onClicklistener
+         * for each image, such that if the image is clicked on, it will be assigned to the meal and saved.
+         */
         @Override
         protected void onPostExecute(ArrayList<String> strings) {
             super.onPostExecute(strings);
