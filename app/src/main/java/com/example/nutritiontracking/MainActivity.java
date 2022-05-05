@@ -482,8 +482,7 @@ public  class MainActivity extends AppCompatActivity {
             for (Meal m : currMeals){
                 mealStr.add(m.toString());
             }
-            dStr += String.join(",",mealStr);
-            dStr += "]}";
+            dStr += (String.join(",",mealStr) +"]}");
             dateStrs.add(dStr);
         }
 
